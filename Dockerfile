@@ -17,6 +17,7 @@ ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction \
+    && composer dump-env prod \
     && php bin/console asset-map:compile --env=prod \
     && php bin/console cache:clear --env=prod
 

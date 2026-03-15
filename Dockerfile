@@ -23,4 +23,4 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
 
 EXPOSE ${PORT:-8080}
 
-CMD for i in 1 2 3 4 5; do php bin/console doctrine:migrations:migrate --no-interaction --env=prod && break || sleep 5; done && php -S 0.0.0.0:${PORT:-8080} -t public/
+CMD for i in 1 2 3 4 5; do php bin/console doctrine:migrations:migrate --no-interaction --env=prod && break || sleep 5; done && php bin/console app:load-data --env=prod && php -S 0.0.0.0:${PORT:-8080} -t public/

@@ -1,0 +1,10 @@
+var/
+.git/
+.env.local
+.env.*.local
+phpunit.xml
+phpunit.dist.xml
+.phpunit.cache/
+tests/
+docker-compose*.yml
+compose*.yaml

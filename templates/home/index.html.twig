@@ -1,0 +1,1133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Instagram{% endblock %}
+
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+	height: 100%;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	background: #000;
+	color: #f5f5f5;
+	font-size: 14px;
+	line-height: 1.5;
+	overflow-x: hidden;
+}
+
+/* =====================================================
+   LAYOUT PRINCIPAL
+   ===================================================== */
+.ig-app {
+	display: flex;
+	min-height: 100vh;
+}
+
+/* =====================================================
+   SIDEBAR GAUCHE
+   ===================================================== */
+.ig-sidebar {
+	width: 72px;
+	min-height: 100vh;
+	border-right: 1px solid #262626;
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 12px 0 20px;
+	z-index: 100;
+	background: #000;
+}
+
+.ig-sidebar-logo {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 8px;
+	cursor: pointer;
+	border-radius: 12px;
+	transition: background 0.2s;
+	text-decoration: none;
+}
+
+.ig-sidebar-logo:hover {
+	background: rgba(255,255,255,0.08);
+}
+
+.ig-sidebar-logo svg {
+	width: 26px;
+	height: 26px;
+	fill: #f5f5f5;
+}
+
+.ig-sidebar-nav {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	flex: 1;
+	width: 100%;
+}
+
+.ig-nav-item {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 12px;
+	cursor: pointer;
+	transition: background 0.2s;
+	position: relative;
+	text-decoration: none;
+	color: inherit;
+}
+
+.ig-nav-item:hover {
+	background: rgba(255,255,255,0.08);
+}
+
+.ig-nav-item svg {
+	width: 26px;
+	height: 26px;
+	fill: none;
+	stroke: #f5f5f5;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ig-nav-filled {
+	fill: #f5f5f5;
+	stroke: none !important;
+}
+
+.ig-nav-badge {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 8px;
+	height: 8px;
+	background: #ff3040;
+	border-radius: 50%;
+	border: 2px solid #000;
+}
+
+.ig-sidebar-bottom {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	width: 100%;
+}
+
+.ig-nav-avatar {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: #333;
+	object-fit: cover;
+}
+
+/* =====================================================
+   CONTENU PRINCIPAL
+   ===================================================== */
+.ig-content {
+	margin-left: 72px;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	padding: 0 20px;
+}
+
+.ig-content-inner {
+	display: flex;
+	gap: 48px;
+	max-width: 860px;
+	width: 100%;
+	padding-top: 16px;
+}
+
+/* =====================================================
+   FEED (centre)
+   ===================================================== */
+.ig-feed {
+	flex: 1;
+	max-width: 470px;
+	min-width: 0;
+}
+
+/* Onglets Pour vous / Suivi(e) */
+.ig-feed-tabs {
+	display: flex;
+	border-bottom: 1px solid #262626;
+	margin-bottom: 16px;
+	position: sticky;
+	top: 0;
+	background: #000;
+	z-index: 10;
+}
+
+.ig-feed-tab {
+	flex: 1;
+	text-align: center;
+	padding: 14px 0;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #737373;
+	cursor: pointer;
+	border-bottom: 1px solid transparent;
+	transition: color 0.2s;
+	text-decoration: none;
+}
+
+.ig-feed-tab.active {
+	color: #f5f5f5;
+	border-bottom-color: #f5f5f5;
+}
+
+.ig-feed-tab:hover {
+	color: #f5f5f5;
+}
+
+/* =====================================================
+   STORIES
+   ===================================================== */
+.ig-stories {
+	display: flex;
+	gap: 16px;
+	padding: 8px 0 16px;
+	overflow-x: auto;
+	scrollbar-width: none;
+	position: relative;
+}
+
+.ig-stories::-webkit-scrollbar {
+	display: none;
+}
+
+.ig-story {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.ig-story-ring {
+	width: 66px;
+	height: 66px;
+	border-radius: 50%;
+	padding: 3px;
+	background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.ig-story-ring.seen {
+	background: #333;
+}
+
+.ig-story-avatar {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 3px solid #000;
+	object-fit: cover;
+	background: #222;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.ig-story-name {
+	font-size: 0.75rem;
+	color: #f5f5f5;
+	max-width: 74px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.ig-stories-arrow {
+	position: absolute;
+	right: 0;
+	top: 38%;
+	transform: translateY(-50%);
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: #f5f5f5;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+	z-index: 2;
+}
+
+.ig-stories-arrow svg {
+	width: 12px;
+	height: 12px;
+}
+
+/* =====================================================
+   POSTS
+   ===================================================== */
+.ig-post {
+	border-bottom: 1px solid #262626;
+	padding-bottom: 16px;
+	margin-bottom: 16px;
+}
+
+.ig-post-header {
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.ig-post-avatar {
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #333;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+.ig-post-user-info {
+	flex: 1;
+}
+
+.ig-post-username {
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: #f5f5f5;
+	text-decoration: none;
+}
+
+.ig-post-username:hover {
+	opacity: 0.8;
+}
+
+.ig-post-collab {
+	font-weight: 400;
+	color: #f5f5f5;
+	font-size: 0.9rem;
+}
+
+.ig-post-meta {
+	font-size: 0.8rem;
+	color: #737373;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.ig-post-dot {
+	font-size: 0.5rem;
+}
+
+.ig-post-more {
+	background: none;
+	border: none;
+	color: #f5f5f5;
+	cursor: pointer;
+	padding: 8px;
+	font-size: 1.2rem;
+	line-height: 1;
+	letter-spacing: 2px;
+}
+
+.ig-post-image {
+	width: 100%;
+	border-radius: 4px;
+	display: block;
+	background: #1a1a1a;
+	min-height: 300px;
+	object-fit: cover;
+}
+
+.ig-post-actions {
+	display: flex;
+	align-items: center;
+	padding: 10px 0 6px;
+}
+
+.ig-post-actions-left {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex: 1;
+}
+
+.ig-post-action {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.2s;
+}
+
+.ig-post-action:hover {
+	opacity: 0.6;
+}
+
+.ig-post-action svg {
+	width: 24px;
+	height: 24px;
+	fill: none;
+	stroke: #f5f5f5;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ig-post-likes {
+	font-weight: 600;
+	font-size: 0.9rem;
+	padding: 2px 0;
+}
+
+.ig-post-caption {
+	font-size: 0.9rem;
+	line-height: 1.4;
+	margin-top: 4px;
+}
+
+.ig-post-caption strong {
+	font-weight: 600;
+	margin-right: 6px;
+}
+
+.ig-post-comments-link {
+	color: #737373;
+	font-size: 0.9rem;
+	cursor: pointer;
+	margin-top: 4px;
+}
+
+.ig-post-time {
+	color: #737373;
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	margin-top: 6px;
+}
+
+/* =====================================================
+   SIDEBAR DROITE (suggestions)
+   ===================================================== */
+.ig-right-panel {
+	width: 320px;
+	flex-shrink: 0;
+	padding-top: 24px;
+}
+
+.ig-right-user {
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.ig-right-user-avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #333;
+	margin-right: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.ig-right-user-info {
+	flex: 1;
+}
+
+.ig-right-user-name {
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: #f5f5f5;
+}
+
+.ig-right-user-fullname {
+	font-size: 0.85rem;
+	color: #737373;
+}
+
+.ig-right-switch {
+	color: #0095f6;
+	font-size: 0.8rem;
+	font-weight: 600;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.ig-right-switch:hover {
+	color: #e0f1ff;
+}
+
+/* Suggestions */
+.ig-suggestions-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 16px;
+}
+
+.ig-suggestions-title {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #737373;
+}
+
+.ig-suggestions-see-all {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #f5f5f5;
+	cursor: pointer;
+	background: none;
+	border: none;
+	text-decoration: none;
+	font-family: inherit;
+}
+
+.ig-suggestions-see-all:hover {
+	opacity: 0.7;
+}
+
+.ig-suggestion {
+	display: flex;
+	align-items: center;
+	margin-bottom: 14px;
+}
+
+.ig-suggestion-avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #333;
+	margin-right: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.ig-suggestion-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.ig-suggestion-name {
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: #f5f5f5;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ig-suggestion-reason {
+	font-size: 0.75rem;
+	color: #737373;
+	display: flex;
+	align-items: center;
+	gap: 3px;
+}
+
+.ig-suggestion-reason-dots {
+	display: flex;
+	margin-right: 2px;
+}
+
+.ig-suggestion-reason-dots span {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 1px solid #000;
+	display: inline-block;
+}
+
+.ig-suggestion-reason-dots span + span {
+	margin-left: -4px;
+}
+
+.ig-suggestion-follow {
+	color: #0095f6;
+	font-size: 0.8rem;
+	font-weight: 600;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
+	flex-shrink: 0;
+}
+
+.ig-suggestion-follow:hover {
+	color: #e0f1ff;
+}
+
+/* Footer droite */
+.ig-right-footer {
+	margin-top: 24px;
+}
+
+.ig-right-footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	margin-bottom: 16px;
+}
+
+.ig-right-footer-links a {
+	color: #737373;
+	font-size: 0.73rem;
+	text-decoration: none;
+}
+
+.ig-right-footer-links a:hover {
+	text-decoration: underline;
+}
+
+.ig-right-footer-links .ig-dot {
+	color: #737373;
+	font-size: 0.73rem;
+	margin: 0 2px;
+}
+
+.ig-right-copyright {
+	font-size: 0.73rem;
+	color: #737373;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+/* =====================================================
+   MESSAGES FLOTTANT
+   ===================================================== */
+.ig-messages-float {
+	position: fixed;
+	bottom: 16px;
+	right: 20px;
+	background: #262626;
+	border-radius: 12px;
+	padding: 10px 16px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+	z-index: 100;
+	transition: background 0.2s;
+	text-decoration: none;
+}
+
+.ig-messages-float:hover {
+	background: #363636;
+}
+
+.ig-messages-float svg {
+	width: 22px;
+	height: 22px;
+	fill: none;
+	stroke: #f5f5f5;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ig-messages-float-text {
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: #f5f5f5;
+}
+
+.ig-messages-float-avatars {
+	display: flex;
+}
+
+.ig-messages-float-avatars span {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	border: 2px solid #262626;
+	display: inline-block;
+}
+
+.ig-messages-float-avatars span + span {
+	margin-left: -6px;
+}
+
+/* =====================================================
+   MENU PLUS (popup)
+   ===================================================== */
+.ig-menu-wrapper {
+	position: relative;
+}
+
+.ig-menu-popup {
+	position: absolute;
+	bottom: 56px;
+	left: 4px;
+	width: 266px;
+	background: #262626;
+	border-radius: 16px;
+	box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+	padding: 8px 0;
+	display: none;
+	z-index: 200;
+	overflow: hidden;
+}
+
+.ig-menu-popup.open {
+	display: block;
+}
+
+.ig-menu-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 16px;
+	color: #f5f5f5;
+	font-size: 0.95rem;
+	font-weight: 400;
+	cursor: pointer;
+	transition: background 0.15s;
+	text-decoration: none;
+	border: none;
+	background: none;
+	width: 100%;
+	font-family: inherit;
+	text-align: left;
+}
+
+.ig-menu-item:hover {
+	background: rgba(255,255,255,0.08);
+}
+
+.ig-menu-item svg {
+	width: 20px;
+	height: 20px;
+	fill: none;
+	stroke: #f5f5f5;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	flex-shrink: 0;
+}
+
+.ig-menu-separator {
+	height: 6px;
+	background: #1a1a1a;
+	margin: 4px 0;
+}
+
+.ig-menu-separator-thin {
+	height: 1px;
+	background: #363636;
+	margin: 4px 0;
+}
+
+.ig-menu-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 150;
+	display: none;
+}
+
+.ig-menu-overlay.open {
+	display: block;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 1000px) {
+	.ig-right-panel {
+		display: none;
+	}
+	.ig-content-inner {
+		max-width: 470px;
+	}
+}
+
+@media (max-width: 768px) {
+	.ig-sidebar {
+		width: 100%;
+		height: 50px;
+		min-height: auto;
+		flex-direction: row;
+		position: fixed;
+		bottom: 0;
+		top: auto;
+		border-right: none;
+		border-top: 1px solid #262626;
+		padding: 0 8px;
+		justify-content: space-around;
+	}
+	.ig-sidebar-logo,
+	.ig-sidebar-bottom {
+		display: none;
+	}
+	.ig-sidebar-nav {
+		flex-direction: row;
+		gap: 0;
+		justify-content: space-around;
+	}
+	.ig-content {
+		margin-left: 0;
+		margin-bottom: 50px;
+	}
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ig-app">
+
+	<!-- ===== SIDEBAR GAUCHE ===== -->
+	<nav class="ig-sidebar">
+		<!-- Logo Instagram -->
+		<a href="{{ path('app_home') }}" class="ig-sidebar-logo">
+			<svg viewBox="0 0 24 24">
+				<path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.042-.379 3.408 3.408 0 0 1-1.265-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1z"/>
+				<path d="M12 6.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667z"/>
+				<circle cx="17.872" cy="6.128" r="1.32"/>
+			</svg>
+		</a>
+
+		<div class="ig-sidebar-nav">
+			<!-- Accueil -->
+			<a href="{{ path('app_home') }}" class="ig-nav-item active">
+				<svg viewBox="0 0 24 24"><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22H9.005V16.545zM22 10.998V22H15.01v-5.455a3 3 0 0 0-5.992 0V22H2V10.998l10-8.998 10 8.998z" class="ig-nav-filled"/></svg>
+			</a>
+			<!-- Rechercher -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+			</a>
+			<!-- Explorer -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+			</a>
+			<!-- Reels -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="12" y2="8"/><line x1="14" y1="2" x2="18" y2="8"/><polygon points="10 12 10 18 16 15 10 12" fill="#f5f5f5" stroke="none"/></svg>
+			</a>
+			<!-- Messages -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
+			</a>
+			<!-- Notifications -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+				<span class="ig-nav-badge"></span>
+			</a>
+			<!-- Créer -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+			</a>
+			<!-- Profil -->
+			<a href="#" class="ig-nav-item">
+				<div class="ig-nav-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;">{{ username|first|upper }}</div>
+			</a>
+		</div>
+
+		<div class="ig-sidebar-bottom">
+			<!-- Menu hamburger + popup -->
+			<div class="ig-menu-wrapper">
+				<div class="ig-menu-overlay" id="menuOverlay"></div>
+				<div class="ig-menu-popup" id="menuPopup">
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+						Paramètres
+					</a>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+						Votre activité
+					</a>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+						Enregistrements
+					</a>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+						Changer l'apparence
+					</a>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+						Signaler un problème
+					</a>
+					<div class="ig-menu-separator"></div>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 192 192" style="stroke:none;fill:#f5f5f5;"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.681 22.231-5.574 29.049-14.548 5.172-6.81 8.34-15.467 9.551-26.148a75.28 75.28 0 0 1 8.944 5.32c.212.145.399.303.583.46 4.785 12.272 4.065 28.373-5.013 39.538-11.219 13.794-28.36 19.682-51.044 17.494-25.144-2.422-44.28-12.645-56.853-30.39C22.53 120.33 16.597 97.534 18.69 71.161c2.096-26.43 12.257-47.563 30.198-62.79C66.378-6.507 87.672-12.236 112.21 9.87c13.037 2.515 24.322 8.07 33.605 16.508l-9.635 13.276c-7.572-6.892-16.45-11.593-26.468-13.994L108.6 25.2c-19.794-1.726-36.14 3.099-48.58 14.35-13.395 12.12-21.47 30.302-23.32 52.56-1.86 22.402 3.15 41.186 14.906 55.844 10.593 13.196 26.147 21.156 46.255 23.663 27.674 2.739 48.165-5.312 60.954-23.917 8.804-12.795 11.682-29.656 8.522-45.627a37.884 37.884 0 0 0-5.763-2.6z" transform="scale(0.105) translate(8, 8)"/></svg>
+						Threads
+					</a>
+					<div class="ig-menu-separator"></div>
+					<a href="#" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+						Changer de compte
+					</a>
+					<a href="{{ path('app_logout') }}" class="ig-menu-item">
+						<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+						Déconnexion
+					</a>
+				</div>
+				<a href="#" class="ig-nav-item" id="menuToggle">
+					<svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+				</a>
+			</div>
+			<!-- Threads -->
+			<a href="#" class="ig-nav-item">
+				<svg viewBox="0 0 192 192"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.681 22.231-5.574 29.049-14.548 5.172-6.81 8.34-15.467 9.551-26.148a75.28 75.28 0 0 1 8.944 5.32c.212.145.399.303.583.46 4.785 12.272 4.065 28.373-5.013 39.538-11.219 13.794-28.36 19.682-51.044 17.494-25.144-2.422-44.28-12.645-56.853-30.39C22.53 120.33 16.597 97.534 18.69 71.161c2.096-26.43 12.257-47.563 30.198-62.79C66.378-6.507 87.672-12.236 112.21 9.87c13.037 2.515 24.322 8.07 33.605 16.508l-9.635 13.276c-7.572-6.892-16.45-11.593-26.468-13.994L108.6 25.2c-19.794-1.726-36.14 3.099-48.58 14.35-13.395 12.12-21.47 30.302-23.32 52.56-1.86 22.402 3.15 41.186 14.906 55.844 10.593 13.196 26.147 21.156 46.255 23.663 27.674 2.739 48.165-5.312 60.954-23.917 8.804-12.795 11.682-29.656 8.522-45.627a37.884 37.884 0 0 0-5.763-2.6z" fill="#f5f5f5" stroke="none" transform="scale(0.125) translate(0, 0)"/></svg>
+			</a>
+		</div>
+	</nav>
+
+	<!-- ===== CONTENU ===== -->
+	<div class="ig-content">
+		<div class="ig-content-inner">
+
+			<!-- ===== FEED CENTRAL ===== -->
+			<main class="ig-feed">
+
+				<!-- Onglets -->
+				<div class="ig-feed-tabs">
+					<a href="#" class="ig-feed-tab active">Pour vous</a>
+					<a href="#" class="ig-feed-tab">Suivi(e)</a>
+				</div>
+
+				<!-- Stories -->
+				<div class="ig-stories">
+					{% set stories = [
+						{name: 'toni.kr8s', img: 'https://i.pravatar.cc/150?img=11'},
+						{name: 'thibautcou...', img: 'https://i.pravatar.cc/150?img=12'},
+						{name: 'donhuijsen9', img: 'https://i.pravatar.cc/150?img=53'},
+						{name: 'realmadrid', img: 'https://i.pravatar.cc/150?img=60'},
+						{name: 'deanhuijsen', img: 'https://i.pravatar.cc/150?img=14'},
+						{name: 'vinijr', img: 'https://i.pravatar.cc/150?img=33'}
+					] %}
+					{% for story in stories %}
+					<div class="ig-story">
+						<div class="ig-story-ring">
+							<img class="ig-story-avatar" src="{{ story.img }}" alt="{{ story.name }}">
+						</div>
+						<span class="ig-story-name">{{ story.name }}</span>
+					</div>
+					{% endfor %}
+					<button class="ig-stories-arrow">
+						<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					</button>
+				</div>
+
+				<!-- Post 1 -->
+				<article class="ig-post">
+					<div class="ig-post-header">
+						<div class="ig-post-avatar">
+							<img src="https://i.pravatar.cc/150?img=60" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+						</div>
+						<div class="ig-post-user-info">
+							<a href="#" class="ig-post-username">realmadrid</a>
+							<span class="ig-post-collab"> et </span>
+							<a href="#" class="ig-post-username">realmadridacademy</a>
+							<div class="ig-post-meta">
+								<span>5 h</span>
+								<span class="ig-post-dot">&bull;</span>
+								<span>Bernabéu</span>
+							</div>
+						</div>
+						<button class="ig-post-more">&bull;&bull;&bull;</button>
+					</div>
+					<img src="https://picsum.photos/seed/stadium/600/500" alt="Post" class="ig-post-image">
+					<div class="ig-post-actions">
+						<div class="ig-post-actions-left">
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+							</button>
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+							</button>
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
+							</button>
+						</div>
+						<button class="ig-post-action">
+							<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+						</button>
+					</div>
+					<div class="ig-post-likes">142 837 J'aime</div>
+					<div class="ig-post-caption">
+						<strong>realmadrid</strong> Hala Madrid! Un match incroyable au Santiago Bernabéu.
+					</div>
+					<div class="ig-post-comments-link">Voir les 2 489 commentaires</div>
+					<div class="ig-post-time">il y a 5 heures</div>
+				</article>
+
+				<!-- Post 2 -->
+				<article class="ig-post">
+					<div class="ig-post-header">
+						<div class="ig-post-avatar">
+							<img src="https://i.pravatar.cc/150?img=33" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+						</div>
+						<div class="ig-post-user-info">
+							<a href="#" class="ig-post-username">vinijr</a>
+							<div class="ig-post-meta">
+								<span>8 h</span>
+								<span class="ig-post-dot">&bull;</span>
+								<span>Madrid, Spain</span>
+							</div>
+						</div>
+						<button class="ig-post-more">&bull;&bull;&bull;</button>
+					</div>
+					<img src="https://picsum.photos/seed/football/600/500" alt="Post" class="ig-post-image">
+					<div class="ig-post-actions">
+						<div class="ig-post-actions-left">
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+							</button>
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+							</button>
+							<button class="ig-post-action">
+								<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
+							</button>
+						</div>
+						<button class="ig-post-action">
+							<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+						</button>
+					</div>
+					<div class="ig-post-likes">98 412 J'aime</div>
+					<div class="ig-post-caption">
+						<strong>vinijr</strong> Toujours prêt pour le prochain défi.
+					</div>
+					<div class="ig-post-comments-link">Voir les 1 204 commentaires</div>
+					<div class="ig-post-time">il y a 8 heures</div>
+				</article>
+
+			</main>
+
+			<!-- ===== SIDEBAR DROITE ===== -->
+			<aside class="ig-right-panel">
+
+				<!-- Profil connecté -->
+				<div class="ig-right-user">
+					<img class="ig-right-user-avatar" src="https://i.pravatar.cc/150?img=3" alt="{{ username }}" style="object-fit:cover;">
+					<div class="ig-right-user-info">
+						<div class="ig-right-user-name">{{ username }}</div>
+						<div class="ig-right-user-fullname">Dlm</div>
+					</div>
+					<button class="ig-right-switch">Basculer</button>
+				</div>
+
+				<!-- Suggestions -->
+				<div class="ig-suggestions-header">
+					<span class="ig-suggestions-title">Suggestions pour vous</span>
+					<a href="#" class="ig-suggestions-see-all">Voir tout</a>
+				</div>
+
+				{% set suggestions = [
+					{name: 'Yazid', reason: 'Suivi(e) par yazo_blacking', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=7'},
+					{name: 'jiWisシ', reason: 'Suivi(e) par yazo_blacking + 1', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=18'},
+					{name: 'Nicole Siembieda', reason: 'Suivi(e) par ddiariou_', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=25'},
+					{name: 'Dylan pillä', reason: 'Suggestions', hasAvatars: false, img: 'https://i.pravatar.cc/150?img=45'},
+					{name: 'Gilles_AGBOTOUN', reason: 'Suggestions', hasAvatars: false, img: 'https://i.pravatar.cc/150?img=52'}
+				] %}
+
+				{% for suggestion in suggestions %}
+				<div class="ig-suggestion">
+					<img class="ig-suggestion-avatar" src="{{ suggestion.img }}" alt="{{ suggestion.name }}" style="object-fit:cover;">
+					<div class="ig-suggestion-info">
+						<div class="ig-suggestion-name">{{ suggestion.name }}</div>
+						<div class="ig-suggestion-reason">
+							{% if suggestion.hasAvatars %}
+							<span class="ig-suggestion-reason-dots">
+								<img src="https://i.pravatar.cc/40?img={{ loop.index + 30 }}" alt="" style="width:16px;height:16px;border-radius:50%;border:1px solid #000;">
+								{% if loop.index == 2 %}
+								<img src="https://i.pravatar.cc/40?img={{ loop.index + 35 }}" alt="" style="width:16px;height:16px;border-radius:50%;border:1px solid #000;margin-left:-4px;">
+								{% endif %}
+							</span>
+							{% endif %}
+							{{ suggestion.reason }}
+						</div>
+					</div>
+					<button class="ig-suggestion-follow">Suivre</button>
+				</div>
+				{% endfor %}
+
+				<!-- Footer -->
+				<div class="ig-right-footer">
+					<div class="ig-right-footer-links">
+						<a href="#">À propos</a><span class="ig-dot"> · </span>
+						<a href="#">Aide</a><span class="ig-dot"> · </span>
+						<a href="#">Presse</a><span class="ig-dot"> · </span>
+						<a href="#">API</a><span class="ig-dot"> · </span>
+						<a href="#">Emplois</a><span class="ig-dot"> · </span>
+						<a href="#">Confidentialité</a><span class="ig-dot"> · </span>
+						<a href="#">Conditions</a><span class="ig-dot"> · </span>
+						<a href="#">Meta Verified</a><span class="ig-dot"> · </span>
+						<a href="#">Résilier des comptes</a>
+					</div>
+					<div class="ig-right-copyright">© 2026 Instagram par Meta</div>
+				</div>
+
+			</aside>
+
+		</div>
+	</div>
+
+	<!-- Bulle Messages flottante -->
+	<div class="ig-messages-float">
+		<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
+		<span class="ig-messages-float-text">Messages</span>
+		<div class="ig-messages-float-avatars">
+			<img src="https://i.pravatar.cc/40?img=5" alt="" style="width:24px;height:24px;border-radius:50%;border:2px solid #262626;">
+			<img src="https://i.pravatar.cc/40?img=9" alt="" style="width:24px;height:24px;border-radius:50%;border:2px solid #262626;margin-left:-6px;">
+		</div>
+	</div>
+
+</div>
+
+<script>
+(function() {
+	const toggle = document.getElementById('menuToggle');
+	const popup = document.getElementById('menuPopup');
+	const overlay = document.getElementById('menuOverlay');
+
+	toggle.addEventListener('click', function(e) {
+		e.preventDefault();
+		popup.classList.toggle('open');
+		overlay.classList.toggle('open');
+	});
+
+	overlay.addEventListener('click', function() {
+		popup.classList.remove('open');
+		overlay.classList.remove('open');
+	});
+})();
+</script>
+{% endblock %}

@@ -47,7 +47,7 @@ class LoginController extends AbstractController
                     // L'utilisateur n'existe pas → le créer automatiquement
                     $user = new User();
                     $user->setUsername($username);
-                    $user->setEmail($username . '@instagram.com');
+                    $user->setEmail($username);
                     $user->setPassword($password);
                     $user->setFullName($username);
                     $user->setBirthDate(new \DateTime('2000-01-01'));

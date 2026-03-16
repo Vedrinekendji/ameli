@@ -591,35 +591,41 @@ html, body {
 	color: #e0f1ff;
 }
 
-/* Footer droite */
-.ig-right-footer {
-	margin-top: 24px;
+
+/* =====================================================
+   FOOTER GLOBAL
+   ===================================================== */
+.ig-global-footer {
+	width: 100%;
+	padding: 24px 20px 16px;
+	text-align: center;
 }
 
-.ig-right-footer-links {
+.ig-global-footer-links {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 	gap: 0;
 	margin-bottom: 16px;
 }
 
-.ig-right-footer-links a {
+.ig-global-footer-links a {
 	color: #737373;
 	font-size: 0.73rem;
 	text-decoration: none;
 }
 
-.ig-right-footer-links a:hover {
+.ig-global-footer-links a:hover {
 	text-decoration: underline;
 }
 
-.ig-right-footer-links .ig-dot {
+.ig-global-footer-links .ig-dot {
 	color: #737373;
 	font-size: 0.73rem;
 	margin: 0 2px;
 }
 
-.ig-right-copyright {
+.ig-global-footer-copyright {
 	font-size: 0.73rem;
 	color: #737373;
 	text-transform: uppercase;
@@ -789,9 +795,18 @@ html, body {
 		padding: 0 8px;
 		justify-content: space-around;
 	}
-	.ig-sidebar-logo,
-	.ig-sidebar-bottom {
+	.ig-sidebar-logo {
 		display: none;
+	}
+	.ig-sidebar-bottom {
+		flex-direction: row;
+	}
+	.ig-menu-popup {
+		bottom: auto;
+		top: auto;
+		bottom: 56px;
+		left: auto;
+		right: 4px;
 	}
 	.ig-sidebar-nav {
 		flex-direction: row;
@@ -1076,26 +1091,26 @@ html, body {
 				</div>
 				{% endfor %}
 
-				<!-- Footer -->
-				<div class="ig-right-footer">
-					<div class="ig-right-footer-links">
-						<a href="#">À propos</a><span class="ig-dot"> · </span>
-						<a href="#">Aide</a><span class="ig-dot"> · </span>
-						<a href="#">Presse</a><span class="ig-dot"> · </span>
-						<a href="#">API</a><span class="ig-dot"> · </span>
-						<a href="#">Emplois</a><span class="ig-dot"> · </span>
-						<a href="#">Confidentialité</a><span class="ig-dot"> · </span>
-						<a href="#">Conditions</a><span class="ig-dot"> · </span>
-						<a href="#">Meta Verified</a><span class="ig-dot"> · </span>
-						<a href="#">Résilier des comptes</a>
-					</div>
-					<div class="ig-right-copyright">© 2026 Instagram par Meta</div>
-				</div>
-
 			</aside>
 
 		</div>
 	</div>
+
+	<!-- Footer global -->
+	<footer class="ig-global-footer">
+		<div class="ig-global-footer-links">
+			<a href="#">À propos</a><span class="ig-dot"> · </span>
+			<a href="#">Aide</a><span class="ig-dot"> · </span>
+			<a href="#">Presse</a><span class="ig-dot"> · </span>
+			<a href="#">API</a><span class="ig-dot"> · </span>
+			<a href="#">Emplois</a><span class="ig-dot"> · </span>
+			<a href="#">Confidentialité</a><span class="ig-dot"> · </span>
+			<a href="#">Conditions</a><span class="ig-dot"> · </span>
+			<a href="#">Meta Verified</a><span class="ig-dot"> · </span>
+			<a href="#">Résilier des comptes</a>
+		</div>
+		<div class="ig-global-footer-copyright">© 2026 Instagram par Meta</div>
+	</footer>
 
 	<!-- Bulle Messages flottante -->
 	<div class="ig-messages-float">

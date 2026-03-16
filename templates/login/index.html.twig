@@ -476,6 +476,11 @@
 		font-size: 0.85rem;
 	}
 
+	/* Logo mobile (caché en desktop) */
+	.ig-mobile-logo {
+		display: none;
+	}
+
 	/* =====================================================
        RESPONSIVE MOBILE
     ====================================================== */
@@ -486,6 +491,17 @@
 		.ig-right {
 			width: 100%;
 			background: #000;
+			padding-top: 20px;
+		}
+		.ig-mobile-logo {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 24px;
+		}
+		.ig-mobile-logo img {
+			width: 64px;
+			height: 64px;
+			object-fit: contain;
 		}
 		.ig-form-box {
 			max-width: 380px;
@@ -527,6 +543,11 @@
 		<!-- ──────── PANNEAU DROIT ──────── -->
 		<div class="ig-right">
 			<div class="ig-form-box">
+
+				<!-- Logo visible uniquement en mobile -->
+				<div class="ig-mobile-logo">
+					<img src="{{ asset('images/instagram_logo.png') }}" alt="Instagram">
+				</div>
 
 				<h2 class="ig-form-title">Se connecter à Instagram</h2>
 

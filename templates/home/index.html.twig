@@ -31,7 +31,6 @@ html, body {
 .ig-sidebar {
 	width: 72px;
 	min-height: 100vh;
-	border-right: 1px solid #262626;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -167,7 +166,6 @@ html, body {
 /* Onglets Pour vous / Suivi(e) */
 .ig-feed-tabs {
 	display: flex;
-	border-bottom: 1px solid #262626;
 	margin-bottom: 16px;
 	position: sticky;
 	top: 0;
@@ -925,12 +923,12 @@ html, body {
 				<!-- Stories -->
 				<div class="ig-stories">
 					{% set stories = [
-						{name: 'toni.kr8s', img: 'https://i.pravatar.cc/150?img=11'},
-						{name: 'thibautcou...', img: 'https://i.pravatar.cc/150?img=12'},
-						{name: 'donhuijsen9', img: 'https://i.pravatar.cc/150?img=53'},
-						{name: 'realmadrid', img: 'https://i.pravatar.cc/150?img=60'},
-						{name: 'deanhuijsen', img: 'https://i.pravatar.cc/150?img=14'},
-						{name: 'vinijr', img: 'https://i.pravatar.cc/150?img=33'}
+						{name: 'toni.kr8s', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Toni_Kroos_Real_Madrid_2021.jpg/250px-Toni_Kroos_Real_Madrid_2021.jpg'},
+						{name: 'thibautcou...', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Courtois_2018_%28cropped%29.jpg/250px-Courtois_2018_%28cropped%29.jpg'},
+						{name: 'donhuijsen9', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Dean_Huijsen_2024.jpg/250px-Dean_Huijsen_2024.jpg'},
+						{name: 'realmadrid', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/250px-Real_Madrid_CF.svg.png'},
+						{name: 'deanhuijsen', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Dean_Huijsen_2024.jpg/250px-Dean_Huijsen_2024.jpg'},
+						{name: 'vinijr', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg/250px-2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg'}
 					] %}
 					{% for story in stories %}
 					<div class="ig-story">
@@ -949,7 +947,7 @@ html, body {
 				<article class="ig-post">
 					<div class="ig-post-header">
 						<div class="ig-post-avatar">
-							<img src="https://i.pravatar.cc/150?img=60" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+							<img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/250px-Real_Madrid_CF.svg.png" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
 						</div>
 						<div class="ig-post-user-info">
 							<a href="#" class="ig-post-username">realmadrid</a>
@@ -992,7 +990,7 @@ html, body {
 				<article class="ig-post">
 					<div class="ig-post-header">
 						<div class="ig-post-avatar">
-							<img src="https://i.pravatar.cc/150?img=33" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg/250px-2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
 						</div>
 						<div class="ig-post-user-info">
 							<a href="#" class="ig-post-username">vinijr</a>
@@ -1036,10 +1034,9 @@ html, body {
 
 				<!-- Profil connecté -->
 				<div class="ig-right-user">
-					<img class="ig-right-user-avatar" src="https://i.pravatar.cc/150?img=3" alt="{{ username }}" style="object-fit:cover;">
+					<div class="ig-right-user-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:600;">{{ username|first|upper }}</div>
 					<div class="ig-right-user-info">
 						<div class="ig-right-user-name">{{ username }}</div>
-						<div class="ig-right-user-fullname">Dlm</div>
 					</div>
 					<button class="ig-right-switch">Basculer</button>
 				</div>

@@ -477,7 +477,7 @@
 	}
 
 	/* Logo mobile (caché en desktop) */
-	.ig-mobile-logo {
+	.ig-mobile-header {
 		display: none;
 	}
 
@@ -485,31 +485,42 @@
        RESPONSIVE MOBILE
     ====================================================== */
 	@media(max-width: 768px) {
+		.ig-mobile-header {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			padding: 24px 0;
+			background: #000;
+			border-bottom: 2px solid rgb(var(--ig-input-border));
+		}
+		.ig-mobile-header img {
+			width: 64px;
+			height: 64px;
+			object-fit: contain;
+		}
 		.ig-left {
 			display: none !important;
 		}
 		.ig-right {
 			width: 100%;
-			background: #000;
-			padding-top: 20px;
-		}
-		.ig-mobile-logo {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 24px;
-		}
-		.ig-mobile-logo img {
-			width: 64px;
-			height: 64px;
-			object-fit: contain;
+			background: var(--ig-right-bg);
+			border-left: none;
 		}
 		.ig-form-box {
 			max-width: 380px;
+		}
+		.ig-footer {
+			border-top: none;
 		}
 	}
 </style>{% endblock %}{% block body %}
 <div
 	class="ig-page">
+
+	<!-- Logo mobile pleine largeur -->
+	<div class="ig-mobile-header">
+		<img src="{{ asset('images/instagram_logo.png') }}" alt="Instagram">
+	</div>
 
 	<!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
 	<div
@@ -543,11 +554,6 @@
 		<!-- ──────── PANNEAU DROIT ──────── -->
 		<div class="ig-right">
 			<div class="ig-form-box">
-
-				<!-- Logo visible uniquement en mobile -->
-				<div class="ig-mobile-logo">
-					<img src="{{ asset('images/instagram_logo.png') }}" alt="Instagram">
-				</div>
 
 				<h2 class="ig-form-title">Se connecter à Instagram</h2>
 

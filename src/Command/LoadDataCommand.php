@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:load-data',
@@ -20,6 +21,7 @@ class LoadDataCommand extends Command
     public function __construct(
         private EntityManagerInterface $em,
         private UserRepository $userRepository,
+        private UserPasswordHasherInterface $passwordHasher,
     ) {
         parent::__construct();
     }
@@ -28,7 +30,7 @@ class LoadDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $existing = $this->userRepository->findOneBy(['email' => 'admin@ameli.com']);
+        $existing = $this->userRepository->findOneBy(['email' => '0000000000000']);
 
         if ($existing) {
             $io->info('L\'utilisateur admin existe déjà, rien à faire.');
@@ -36,9 +38,12 @@ class LoadDataCommand extends Command
         }
 
         $admin = new User();
-        $admin->setEmail('admin@ameli.com');
-        $admin->setPassword('admin123');
+        $admin->setEmail('0000000000000');
         $admin->setRole('ROLE_ADMIN');
+        
+        // Hasher le mot de passe
+        $hashedPassword = $this->passwordHasher->hashPassword($admin, 'admin123');
+        $admin->setPassword($hashedPassword);
 
         $this->em->persist($admin);
         $this->em->flush();

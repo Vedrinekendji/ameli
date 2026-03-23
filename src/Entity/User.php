@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,4 +51,10 @@ class User
 
     public function getCreatedAt(): ?\DateTimeInterface { return $this->createdAt; }
     public function setCreatedAt(\DateTimeInterface $createdAt): static { $this->createdAt = $createdAt; return $this; }
+
+    // Interface PasswordAuthenticatedUserInterface
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
+    }
 }

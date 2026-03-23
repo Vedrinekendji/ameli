@@ -17,7 +17,7 @@
     --ameli-text-light: #666666;
     --ameli-text-muted: #999999;
     --ameli-border: #E0E0E0;
-    --ameli-footer-bg: #1E2B3A;
+    --ameli-footer-bg: #31415a;
     --ameli-footer-text: #FFFFFF;
     --ameli-orange: #E8943A;
     --ameli-red: #D64541;
@@ -195,13 +195,11 @@ html, body {
     justify-content: center;
 }
 
-.ameli-card-icon svg {
-    width: 28px;
-    height: 28px;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
+.ameli-card-icon svg,
+.ameli-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .ameli-card-icon-blue { background: #e8f0fe; }
@@ -425,10 +423,10 @@ html, body {
 }
 
 .ameli-footer-logo img {
-    height: 44px;
+    height: 50px;
     width: auto;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast; /* Imrove sharpness */
 }
 
 .ameli-footer-links {
@@ -437,34 +435,32 @@ html, body {
     flex-wrap: wrap;
     gap: 0;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-end; /* Align links to the right of the logo */
+    padding-left: 40px;
 }
 
 .ameli-footer-links a {
     color: var(--ameli-footer-text);
     text-decoration: none;
-    font-size: 0.78rem;
-    font-weight: 400;
-    padding: 6px 16px;
-    opacity: 0.9;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0 16px;
+    opacity: 1;
     white-space: nowrap;
-    border-right: 1px solid rgba(255,255,255,0.25);
     transition: opacity 0.2s;
 }
 
-.ameli-footer-links a:last-child { border-right: none; }
-.ameli-footer-links a:hover { text-decoration: underline; opacity: 1; }
-
-.ameli-footer-site {
-    color: var(--ameli-footer-text);
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-decoration: none;
-    opacity: 0.9;
-    flex-shrink: 0;
+.ameli-footer-links a:hover {
+    text-decoration: underline;
 }
 
-.ameli-footer-site:hover { opacity: 1; text-decoration: underline; }
+.ameli-footer-separator {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+/* ameli-footer-site class is no longer used separately */
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media (max-width: 900px) {
@@ -550,32 +546,32 @@ html, body {
         <div class="ameli-cards-grid">
 
             <a href="#" class="ameli-card">
-                <div class="ameli-card-icon ameli-card-icon-green">
-                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <div class="ameli-card-icon">
+                    <img src="{{ asset('images/paiement_icon.png') }}" alt="Mes paiements">
                 </div>
                 <span class="ameli-card-label">Mes paiements</span>
                 <span class="ameli-card-desc">Suivre mes remboursements</span>
             </a>
 
             <a href="#" class="ameli-card">
-                <div class="ameli-card-icon ameli-card-icon-blue">
-                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <div class="ameli-card-icon">
+                    <img src="{{ asset('images/attestation_icon.png') }}" alt="Mes attestations">
                 </div>
                 <span class="ameli-card-label">Mes attestations</span>
                 <span class="ameli-card-desc">Telecharger mes documents</span>
             </a>
 
             <a href="#" class="ameli-card">
-                <div class="ameli-card-icon ameli-card-icon-blue">
-                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                <div class="ameli-card-icon">
+                    <img src="{{ asset('images/vitale_icon.png') }}" alt="Ma carte Vitale">
                 </div>
                 <span class="ameli-card-label">Ma carte Vitale</span>
                 <span class="ameli-card-desc">Informations et mise a jour</span>
             </a>
 
             <a href="#" class="ameli-card">
-                <div class="ameli-card-icon ameli-card-icon-orange">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <div class="ameli-card-icon">
+                    <img src="{{ asset('images/ceam_icon.png') }}" alt="Carte europeenne">
                 </div>
                 <span class="ameli-card-label">Carte europeenne</span>
                 <span class="ameli-card-desc">Commander ma CEAM</span>
@@ -590,8 +586,8 @@ html, body {
             </a>
 
             <a href="#" class="ameli-card">
-                <div class="ameli-card-icon ameli-card-icon-red">
-                    <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                <div class="ameli-card-icon">
+                    <img src="{{ asset('images/situation_icon.png') }}" alt="Changement de situation">
                 </div>
                 <span class="ameli-card-label">Changement de situation</span>
                 <span class="ameli-card-desc">Demenagement, emploi...</span>
@@ -708,15 +704,19 @@ html, body {
     <!-- ═══════════════ FOOTER ═══════════════ -->
     <footer class="ameli-footer">
         <div class="ameli-footer-logo">
-            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+            <img src="{{ asset('images/ameli_footer_logo.png') }}" alt="l'Assurance Maladie">
         </div>
         <div class="ameli-footer-links">
-            <a href="#">Mentions legales et CGU</a>
-            <a href="#">Aide et Accessibilite</a>
-            <a href="#">Recommandations de securite</a>
-            <a href="#">Protection des donnees personnelles</a>
+            <a href="#">Mentions légales et CGU</a>
+            <span class="ameli-footer-separator">|</span>
+            <a href="#">Aide et Accessibilité : non conforme</a>
+            <span class="ameli-footer-separator">|</span>
+            <a href="#">Recommandations de sécurité</a>
+            <span class="ameli-footer-separator">|</span>
+            <a href="#">Protection des données personnelles</a>
+            <span class="ameli-footer-separator">|</span>
+            <a href="{{ path('app_welcome') }}">Site Ameli</a>
         </div>
-        <a href="{{ path('app_welcome') }}" class="ameli-footer-site">Site Ameli</a>
     </footer>
 
 </div>

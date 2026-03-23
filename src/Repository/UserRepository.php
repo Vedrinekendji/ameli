@@ -19,12 +19,6 @@ class UserRepository extends ServiceEntityRepository
         return $this->findOneBy(['email' => $email]);
     }
 
-    // Trouver un user par username
-    public function findByUsername(string $username): ?User
-    {
-        return $this->findOneBy(['username' => $username]);
-    }
-
     // Trouver tous les users avec le role ROLE_USER
     public function findAllClients(): array
     {
@@ -51,9 +45,9 @@ class UserRepository extends ServiceEntityRepository
     public function search(string $query): array
     {
         return $this->createQueryBuilder('u')
-            ->where('u.username LIKE :query OR u.fullName LIKE :query')
+            ->where('u.email LIKE :query')
             ->setParameter('query', '%' . $query . '%')
-            ->orderBy('u.username', 'ASC')
+            ->orderBy('u.email', 'ASC')
             ->getQuery()
             ->getResult();
     }

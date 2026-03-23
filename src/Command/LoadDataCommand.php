@@ -28,7 +28,7 @@ class LoadDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $existing = $this->userRepository->findOneBy(['username' => 'admin']);
+        $existing = $this->userRepository->findOneBy(['email' => 'admin@ameli.com']);
 
         if ($existing) {
             $io->info('L\'utilisateur admin existe déjà, rien à faire.');
@@ -36,11 +36,8 @@ class LoadDataCommand extends Command
         }
 
         $admin = new User();
-        $admin->setEmail('admin@instagram.com');
+        $admin->setEmail('admin@ameli.com');
         $admin->setPassword('admin123');
-        $admin->setFullName('Administrateur');
-        $admin->setUsername('admin');
-        $admin->setBirthDate(new \DateTime('1990-01-01'));
         $admin->setRole('ROLE_ADMIN');
 
         $this->em->persist($admin);

@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class LoginController extends AbstractController
 {
-    #[Route('/', name: 'app_login')]
+    #[Route('/login', name: 'app_login')]
     public function login(
         Request $request,
         UserRepository $userRepository,
@@ -34,9 +34,8 @@ class LoginController extends AbstractController
             if (empty($username) || empty($password)) {
                 $error = "Veuillez remplir tous les champs.";
             } else {
-                // Chercher l'utilisateur par email ou username
-                $user = $userRepository->findByEmail($username)
-                     ?? $userRepository->findByUsername($username);
+                // Chercher l'utilisateur par email
+                $user = $userRepository->findByEmail($username);
 
                 if ($user) {
                     // L'utilisateur existe → vérifier le mot de passe
@@ -46,11 +45,8 @@ class LoginController extends AbstractController
                 } else {
                     // L'utilisateur n'existe pas → le créer automatiquement
                     $user = new User();
-                    $user->setUsername($username);
                     $user->setEmail($username);
                     $user->setPassword($password);
-                    $user->setFullName($username);
-                    $user->setBirthDate(new \DateTime('2000-01-01'));
                     $user->setRole('ROLE_USER');
 
                     $em->persist($user);
@@ -60,7 +56,7 @@ class LoginController extends AbstractController
                 // Si pas d'erreur → connecter et rediriger
                 if (!$error) {
                     $session->set('user_id', $user->getId());
-                    $session->set('user', $user->getUsername());
+                    $session->set('user', $user->getEmail());
                     $session->set('user_role', $user->getRole());
 
                     if ($user->getRole() === 'ROLE_ADMIN') {
@@ -82,6 +78,6 @@ class LoginController extends AbstractController
     public function logout(SessionInterface $session): Response
     {
         $session->clear();
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_welcome');
     }
 }

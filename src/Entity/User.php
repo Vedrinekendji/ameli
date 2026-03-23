@@ -20,20 +20,8 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $fullName = null;
-
-    #[ORM\Column(length: 50, unique: true)]
-    private ?string $username = null;
-
-    #[ORM\Column(type: 'date')]
-    private ?\DateTimeInterface $birthDate = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePicture = null;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $bio = null;
 
     #[ORM\Column(length: 20)]
     private ?string $role = 'ROLE_USER';
@@ -54,20 +42,8 @@ class User
     public function getPassword(): ?string { return $this->password; }
     public function setPassword(string $password): static { $this->password = $password; return $this; }
 
-    public function getFullName(): ?string { return $this->fullName; }
-    public function setFullName(string $fullName): static { $this->fullName = $fullName; return $this; }
-
-    public function getUsername(): ?string { return $this->username; }
-    public function setUsername(string $username): static { $this->username = $username; return $this; }
-
-    public function getBirthDate(): ?\DateTimeInterface { return $this->birthDate; }
-    public function setBirthDate(\DateTimeInterface $birthDate): static { $this->birthDate = $birthDate; return $this; }
-
     public function getProfilePicture(): ?string { return $this->profilePicture; }
     public function setProfilePicture(?string $profilePicture): static { $this->profilePicture = $profilePicture; return $this; }
-
-    public function getBio(): ?string { return $this->bio; }
-    public function setBio(?string $bio): static { $this->bio = $bio; return $this; }
 
     public function getRole(): ?string { return $this->role; }
     public function setRole(string $role): static { $this->role = $role; return $this; }

@@ -26,8 +26,7 @@ class PasswordResetController extends AbstractController
             $newPassword = $request->request->get('password');
             $confirmPassword = $request->request->get('confirm_password');
 
-            $user = $userRepository->findByEmail($identifier)
-                 ?? $userRepository->findByUsername($identifier);
+            $user = $userRepository->findByEmail($identifier);
 
             if (!$user) {
                 $error = "Aucun compte trouvé.";

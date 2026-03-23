@@ -1,1145 +1,723 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Instagram{% endblock %}
+{% block title %}Mon compte ameli{% endblock %}
 
 {% block stylesheets %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+:root {
+    --ameli-blue: #1746A2;
+    --ameli-blue-dark: #0F3280;
+    --ameli-blue-light: #4A7BD5;
+    --ameli-green: #00853E;
+    --ameli-green-light: #e6f5ed;
+    --ameli-bg: #F5F6FA;
+    --ameli-white: #FFFFFF;
+    --ameli-text: #333333;
+    --ameli-text-light: #666666;
+    --ameli-text-muted: #999999;
+    --ameli-border: #E0E0E0;
+    --ameli-footer-bg: #1E2B3A;
+    --ameli-footer-text: #FFFFFF;
+    --ameli-orange: #E8943A;
+    --ameli-red: #D64541;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
-	height: 100%;
-	font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-	background: #000;
-	color: #f5f5f5;
-	font-size: 14px;
-	line-height: 1.5;
-	overflow-x: hidden;
-}
-
-/* =====================================================
-   LAYOUT PRINCIPAL
-   ===================================================== */
-.ig-app {
-	display: flex;
-	min-height: 100vh;
-}
-
-/* =====================================================
-   SIDEBAR GAUCHE
-   ===================================================== */
-.ig-sidebar {
-	width: 72px;
-	min-height: 100vh;
-	position: fixed;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 12px 0 20px;
-	z-index: 100;
-	background: #000;
-}
-
-.ig-sidebar-logo {
-	width: 48px;
-	height: 48px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 8px;
-	cursor: pointer;
-	border-radius: 12px;
-	transition: background 0.2s;
-	text-decoration: none;
-}
-
-.ig-sidebar-logo:hover {
-	background: rgba(255,255,255,0.08);
-}
-
-.ig-sidebar-logo svg {
-	width: 26px;
-	height: 26px;
-	fill: #f5f5f5;
-}
-
-.ig-sidebar-nav {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2px;
-	flex: 1;
-	width: 100%;
-}
-
-.ig-nav-item {
-	width: 48px;
-	height: 48px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 12px;
-	cursor: pointer;
-	transition: background 0.2s;
-	position: relative;
-	text-decoration: none;
-	color: inherit;
-}
-
-.ig-nav-item:hover {
-	background: rgba(255,255,255,0.08);
-}
-
-.ig-nav-item svg {
-	width: 26px;
-	height: 26px;
-	fill: none;
-	stroke: #f5f5f5;
-	stroke-width: 2;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-}
-
-.ig-nav-filled {
-	fill: #f5f5f5;
-	stroke: none !important;
-}
-
-.ig-nav-badge {
-	position: absolute;
-	top: 8px;
-	right: 8px;
-	width: 8px;
-	height: 8px;
-	background: #ff3040;
-	border-radius: 50%;
-	border: 2px solid #000;
-}
-
-.ig-sidebar-bottom {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2px;
-	width: 100%;
-}
-
-.ig-nav-avatar {
-	width: 26px;
-	height: 26px;
-	border-radius: 50%;
-	background: #333;
-	object-fit: cover;
-}
-
-/* =====================================================
-   CONTENU PRINCIPAL
-   ===================================================== */
-.ig-content {
-	margin-left: 72px;
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	padding: 0 20px;
-}
-
-.ig-content-inner {
-	display: flex;
-	gap: 48px;
-	max-width: 860px;
-	width: 100%;
-	padding-top: 16px;
-}
-
-/* =====================================================
-   FEED (centre)
-   ===================================================== */
-.ig-feed {
-	flex: 1;
-	max-width: 470px;
-	min-width: 0;
-}
-
-/* Onglets Pour vous / Suivi(e) */
-.ig-feed-tabs {
-	display: flex;
-	margin-bottom: 16px;
-	position: sticky;
-	top: 0;
-	background: #000;
-	z-index: 10;
-}
-
-.ig-feed-tab {
-	flex: 1;
-	text-align: center;
-	padding: 14px 0;
-	font-size: 0.95rem;
-	font-weight: 600;
-	color: #737373;
-	cursor: pointer;
-	border-bottom: 1px solid transparent;
-	transition: color 0.2s;
-	text-decoration: none;
-}
-
-.ig-feed-tab.active {
-	color: #f5f5f5;
-	border-bottom-color: #f5f5f5;
-}
-
-.ig-feed-tab:hover {
-	color: #f5f5f5;
-}
-
-/* =====================================================
-   STORIES
-   ===================================================== */
-.ig-stories {
-	display: flex;
-	gap: 16px;
-	padding: 8px 0 16px;
-	overflow-x: auto;
-	scrollbar-width: none;
-	position: relative;
-}
-
-.ig-stories::-webkit-scrollbar {
-	display: none;
-}
-
-.ig-story {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 6px;
-	cursor: pointer;
-	flex-shrink: 0;
-}
-
-.ig-story-ring {
-	width: 66px;
-	height: 66px;
-	border-radius: 50%;
-	padding: 3px;
-	background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-}
-
-.ig-story-ring.seen {
-	background: #333;
-}
-
-.ig-story-avatar {
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	border: 3px solid #000;
-	object-fit: cover;
-	background: #222;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 20px;
-	font-weight: 600;
-	color: #fff;
-}
-
-.ig-story-name {
-	font-size: 0.75rem;
-	color: #f5f5f5;
-	max-width: 74px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	text-align: center;
-}
-
-.ig-stories-arrow {
-	position: absolute;
-	right: 0;
-	top: 38%;
-	transform: translateY(-50%);
-	width: 26px;
-	height: 26px;
-	border-radius: 50%;
-	background: #f5f5f5;
-	border: none;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-	z-index: 2;
-}
-
-.ig-stories-arrow svg {
-	width: 12px;
-	height: 12px;
-}
-
-/* =====================================================
-   POSTS
-   ===================================================== */
-.ig-post {
-	border-bottom: 1px solid #262626;
-	padding-bottom: 16px;
-	margin-bottom: 16px;
-}
-
-.ig-post-header {
-	display: flex;
-	align-items: center;
-	padding: 10px 0;
-}
-
-.ig-post-avatar {
-	width: 34px;
-	height: 34px;
-	border-radius: 50%;
-	object-fit: cover;
-	background: #333;
-	margin-right: 10px;
-	overflow: hidden;
-}
-
-.ig-post-user-info {
-	flex: 1;
-}
-
-.ig-post-username {
-	font-weight: 600;
-	font-size: 0.9rem;
-	color: #f5f5f5;
-	text-decoration: none;
-}
-
-.ig-post-username:hover {
-	opacity: 0.8;
-}
-
-.ig-post-collab {
-	font-weight: 400;
-	color: #f5f5f5;
-	font-size: 0.9rem;
-}
-
-.ig-post-meta {
-	font-size: 0.8rem;
-	color: #737373;
-	display: flex;
-	align-items: center;
-	gap: 4px;
-}
-
-.ig-post-dot {
-	font-size: 0.5rem;
+    height: 100%;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--ameli-bg);
+    color: var(--ameli-text);
+    font-size: 14px;
+    line-height: 1.5;
 }
-
-.ig-post-more {
-	background: none;
-	border: none;
-	color: #f5f5f5;
-	cursor: pointer;
-	padding: 8px;
-	font-size: 1.2rem;
-	line-height: 1;
-	letter-spacing: 2px;
-}
-
-.ig-post-image {
-	width: 100%;
-	border-radius: 4px;
-	display: block;
-	background: #1a1a1a;
-	min-height: 300px;
-	object-fit: cover;
-}
-
-.ig-post-actions {
-	display: flex;
-	align-items: center;
-	padding: 10px 0 6px;
-}
-
-.ig-post-actions-left {
-	display: flex;
-	align-items: center;
-	gap: 14px;
-	flex: 1;
-}
-
-.ig-post-action {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 2px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: opacity 0.2s;
-}
-
-.ig-post-action:hover {
-	opacity: 0.6;
-}
 
-.ig-post-action svg {
-	width: 24px;
-	height: 24px;
-	fill: none;
-	stroke: #f5f5f5;
-	stroke-width: 2;
-	stroke-linecap: round;
-	stroke-linejoin: round;
+.ameli-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.ig-post-likes {
-	font-weight: 600;
-	font-size: 0.9rem;
-	padding: 2px 0;
+/* ═══════════════ NAVBAR ═══════════════ */
+.ameli-navbar {
+    background: var(--ameli-white);
+    border-bottom: 3px solid var(--ameli-blue);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-.ig-post-caption {
-	font-size: 0.9rem;
-	line-height: 1.4;
-	margin-top: 4px;
+.ameli-navbar-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
 
-.ig-post-caption strong {
-	font-weight: 600;
-	margin-right: 6px;
+.ameli-navbar-logo img {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
 }
 
-.ig-post-comments-link {
-	color: #737373;
-	font-size: 0.9rem;
-	cursor: pointer;
-	margin-top: 4px;
+.ameli-navbar-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--ameli-border);
+    margin: 0 12px;
 }
 
-.ig-post-time {
-	color: #737373;
-	font-size: 0.7rem;
-	text-transform: uppercase;
-	margin-top: 6px;
-}
+.ameli-navbar-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ameli-blue);
+    flex: 1;
+}
+
+.ameli-navbar-title span { color: var(--ameli-green); }
 
-/* =====================================================
-   SIDEBAR DROITE (suggestions)
-   ===================================================== */
-.ig-right-panel {
-	width: 320px;
-	flex-shrink: 0;
-	padding-top: 24px;
-}
-
-.ig-right-user {
-	display: flex;
-	align-items: center;
-	margin-bottom: 24px;
+.ameli-navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.ig-right-user-avatar {
-	width: 44px;
-	height: 44px;
-	border-radius: 50%;
-	object-fit: cover;
-	background: #333;
-	margin-right: 12px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 18px;
-	font-weight: 600;
-	color: #fff;
+.ameli-navbar-email {
+    font-size: 0.85rem;
+    color: var(--ameli-text-light);
+    font-weight: 500;
+}
+
+.ameli-navbar-logout {
+    background: none;
+    border: 1px solid var(--ameli-border);
+    border-radius: 4px;
+    color: var(--ameli-text-light);
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: inherit;
 }
 
-.ig-right-user-info {
-	flex: 1;
+.ameli-navbar-logout:hover {
+    border-color: var(--ameli-red);
+    color: var(--ameli-red);
+    background: #fff5f5;
 }
 
-.ig-right-user-name {
-	font-weight: 600;
-	font-size: 0.9rem;
-	color: #f5f5f5;
+/* ═══════════════ WELCOME BANNER ═══════════════ */
+.ameli-welcome {
+    background: linear-gradient(135deg, var(--ameli-blue) 0%, var(--ameli-blue-light) 100%);
+    padding: 32px 40px;
+    color: #ffffff;
 }
 
-.ig-right-user-fullname {
-	font-size: 0.85rem;
-	color: #737373;
+.ameli-welcome-inner {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.ig-right-switch {
-	color: #0095f6;
-	font-size: 0.8rem;
-	font-weight: 600;
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-family: inherit;
+.ameli-welcome h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 4px;
 }
+
+.ameli-welcome p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
 
-.ig-right-switch:hover {
-	color: #e0f1ff;
+/* ═══════════════ MAIN CONTENT ═══════════════ */
+.ameli-main {
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 40px 50px;
 }
 
-/* Suggestions */
-.ig-suggestions-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 16px;
+/* ═══════════════ QUICK ACCESS GRID ═══════════════ */
+.ameli-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ameli-text);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ameli-blue);
+    display: inline-block;
+}
+
+.ameli-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.ameli-card {
+    background: var(--ameli-white);
+    border-radius: 8px;
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--ameli-text);
+    border: 1px solid var(--ameli-border);
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.ameli-card:hover {
+    border-color: var(--ameli-blue);
+    box-shadow: 0 4px 16px rgba(23,70,162,0.12);
+    transform: translateY(-2px);
+}
+
+.ameli-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.ig-suggestions-title {
-	font-size: 0.9rem;
-	font-weight: 600;
-	color: #737373;
+.ameli-card-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
 }
 
-.ig-suggestions-see-all {
-	font-size: 0.8rem;
-	font-weight: 600;
-	color: #f5f5f5;
-	cursor: pointer;
-	background: none;
-	border: none;
-	text-decoration: none;
-	font-family: inherit;
-}
+.ameli-card-icon-blue { background: #e8f0fe; }
+.ameli-card-icon-blue svg { stroke: var(--ameli-blue); }
 
-.ig-suggestions-see-all:hover {
-	opacity: 0.7;
-}
+.ameli-card-icon-green { background: var(--ameli-green-light); }
+.ameli-card-icon-green svg { stroke: var(--ameli-green); }
 
-.ig-suggestion {
-	display: flex;
-	align-items: center;
-	margin-bottom: 14px;
-}
+.ameli-card-icon-orange { background: #fef3e0; }
+.ameli-card-icon-orange svg { stroke: var(--ameli-orange); }
 
-.ig-suggestion-avatar {
-	width: 44px;
-	height: 44px;
-	border-radius: 50%;
-	object-fit: cover;
-	background: #333;
-	margin-right: 12px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 16px;
-	font-weight: 600;
-	color: #fff;
-	flex-shrink: 0;
-}
+.ameli-card-icon-red { background: #fde8e8; }
+.ameli-card-icon-red svg { stroke: var(--ameli-red); }
 
-.ig-suggestion-info {
-	flex: 1;
-	min-width: 0;
+.ameli-card-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-.ig-suggestion-name {
-	font-weight: 600;
-	font-size: 0.9rem;
-	color: #f5f5f5;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+.ameli-card-desc {
+    font-size: 0.78rem;
+    color: var(--ameli-text-muted);
+    line-height: 1.3;
 }
 
-.ig-suggestion-reason {
-	font-size: 0.75rem;
-	color: #737373;
-	display: flex;
-	align-items: center;
-	gap: 3px;
+/* ═══════════════ TWO COLUMNS LAYOUT ═══════════════ */
+.ameli-two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
 }
 
-.ig-suggestion-reason-dots {
-	display: flex;
-	margin-right: 2px;
+/* ═══════════════ PAYMENTS TABLE ═══════════════ */
+.ameli-panel {
+    background: var(--ameli-white);
+    border-radius: 8px;
+    border: 1px solid var(--ameli-border);
+    padding: 24px;
 }
 
-.ig-suggestion-reason-dots span {
-	width: 16px;
-	height: 16px;
-	border-radius: 50%;
-	border: 1px solid #000;
-	display: inline-block;
+.ameli-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ameli-blue);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.ig-suggestion-reason-dots span + span {
-	margin-left: -4px;
+.ameli-panel-title svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--ameli-blue);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
-.ig-suggestion-follow {
-	color: #0095f6;
-	font-size: 0.8rem;
-	font-weight: 600;
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-family: inherit;
-	flex-shrink: 0;
+.ameli-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.ig-suggestion-follow:hover {
-	color: #e0f1ff;
+.ameli-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ameli-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--ameli-border);
 }
 
+.ameli-table td {
+    padding: 12px 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f0f0f0;
+}
 
-/* =====================================================
-   FOOTER GLOBAL
-   ===================================================== */
-.ig-global-footer {
-	width: 100%;
-	padding: 24px 20px 16px;
-	text-align: center;
+.ameli-table tr:last-child td {
+    border-bottom: none;
 }
 
-.ig-global-footer-links {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 0;
-	margin-bottom: 16px;
+.ameli-amount {
+    font-weight: 600;
+    color: var(--ameli-green);
 }
 
-.ig-global-footer-links a {
-	color: #737373;
-	font-size: 0.73rem;
-	text-decoration: none;
+.ameli-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
 }
 
-.ig-global-footer-links a:hover {
-	text-decoration: underline;
+.ameli-badge-paid {
+    background: var(--ameli-green-light);
+    color: var(--ameli-green);
 }
 
-.ig-global-footer-links .ig-dot {
-	color: #737373;
-	font-size: 0.73rem;
-	margin: 0 2px;
+.ameli-badge-pending {
+    background: #fef3e0;
+    color: #b87a00;
 }
 
-.ig-global-footer-copyright {
-	font-size: 0.73rem;
-	color: #737373;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
+/* ═══════════════ INFO CARDS ═══════════════ */
+.ameli-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-/* =====================================================
-   MESSAGES FLOTTANT
-   ===================================================== */
-.ig-messages-float {
-	position: fixed;
-	bottom: 16px;
-	right: 20px;
-	background: #262626;
-	border-radius: 12px;
-	padding: 10px 16px;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	cursor: pointer;
-	box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-	z-index: 100;
-	transition: background 0.2s;
-	text-decoration: none;
+.ameli-info-item:last-child {
+    border-bottom: none;
 }
 
-.ig-messages-float:hover {
-	background: #363636;
+.ameli-info-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e8f0fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.ig-messages-float svg {
-	width: 22px;
-	height: 22px;
-	fill: none;
-	stroke: #f5f5f5;
-	stroke-width: 2;
-	stroke-linecap: round;
-	stroke-linejoin: round;
+.ameli-info-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--ameli-blue);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
-.ig-messages-float-text {
-	font-weight: 600;
-	font-size: 0.95rem;
-	color: #f5f5f5;
+.ameli-info-text h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ameli-text);
+    margin-bottom: 2px;
 }
 
-.ig-messages-float-avatars {
-	display: flex;
+.ameli-info-text p {
+    font-size: 0.8rem;
+    color: var(--ameli-text-muted);
+    line-height: 1.4;
 }
 
-.ig-messages-float-avatars span {
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	border: 2px solid #262626;
-	display: inline-block;
+.ameli-link {
+    color: var(--ameli-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    transition: text-decoration 0.2s;
 }
 
-.ig-messages-float-avatars span + span {
-	margin-left: -6px;
+.ameli-link:hover {
+    text-decoration: underline;
 }
 
-/* =====================================================
-   MENU PLUS (popup)
-   ===================================================== */
-.ig-menu-wrapper {
-	position: relative;
+/* ═══════════════ NOTIFICATION BANNER ═══════════════ */
+.ameli-notif {
+    background: #e8f0fe;
+    border-left: 4px solid var(--ameli-blue);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.ig-menu-popup {
-	position: absolute;
-	bottom: 56px;
-	left: 4px;
-	width: 266px;
-	background: #262626;
-	border-radius: 16px;
-	box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-	padding: 8px 0;
-	display: none;
-	z-index: 200;
-	overflow: hidden;
+.ameli-notif svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--ameli-blue);
+    fill: none;
+    stroke-width: 1.5;
+    flex-shrink: 0;
 }
 
-.ig-menu-popup.open {
-	display: block;
+.ameli-notif-text {
+    font-size: 0.88rem;
+    color: var(--ameli-text);
+    flex: 1;
 }
 
-.ig-menu-item {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 14px 16px;
-	color: #f5f5f5;
-	font-size: 0.95rem;
-	font-weight: 400;
-	cursor: pointer;
-	transition: background 0.15s;
-	text-decoration: none;
-	border: none;
-	background: none;
-	width: 100%;
-	font-family: inherit;
-	text-align: left;
+.ameli-notif-text strong {
+    font-weight: 600;
 }
 
-.ig-menu-item:hover {
-	background: rgba(255,255,255,0.08);
+/* ═══════════════ FOOTER ═══════════════ */
+.ameli-footer {
+    background: var(--ameli-footer-bg);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.ig-menu-item svg {
-	width: 20px;
-	height: 20px;
-	fill: none;
-	stroke: #f5f5f5;
-	stroke-width: 2;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	flex-shrink: 0;
+.ameli-footer-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-.ig-menu-separator {
-	height: 6px;
-	background: #1a1a1a;
-	margin: 4px 0;
+.ameli-footer-logo img {
+    height: 44px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
 }
 
-.ig-menu-separator-thin {
-	height: 1px;
-	background: #363636;
-	margin: 4px 0;
+.ameli-footer-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    flex: 1;
+    justify-content: center;
 }
 
-.ig-menu-overlay {
-	position: fixed;
-	inset: 0;
-	z-index: 150;
-	display: none;
+.ameli-footer-links a {
+    color: var(--ameli-footer-text);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 400;
+    padding: 6px 16px;
+    opacity: 0.9;
+    white-space: nowrap;
+    border-right: 1px solid rgba(255,255,255,0.25);
+    transition: opacity 0.2s;
 }
 
-.ig-menu-overlay.open {
-	display: block;
+.ameli-footer-links a:last-child { border-right: none; }
+.ameli-footer-links a:hover { text-decoration: underline; opacity: 1; }
+
+.ameli-footer-site {
+    color: var(--ameli-footer-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0.9;
+    flex-shrink: 0;
 }
+
+.ameli-footer-site:hover { opacity: 1; text-decoration: underline; }
 
-/* =====================================================
-   RESPONSIVE
-   ===================================================== */
-@media (max-width: 1000px) {
-	.ig-right-panel {
-		display: none;
-	}
-	.ig-content-inner {
-		max-width: 470px;
-	}
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media (max-width: 900px) {
+    .ameli-two-cols {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-	.ig-sidebar {
-		width: 100%;
-		height: 50px;
-		min-height: auto;
-		flex-direction: row;
-		position: fixed;
-		bottom: 0;
-		top: auto;
-		border-right: none;
-		border-top: 1px solid #262626;
-		padding: 0 8px;
-		justify-content: space-around;
-	}
-	.ig-sidebar-logo {
-		display: none;
-	}
-	.ig-sidebar-bottom {
-		flex-direction: row;
-	}
-	.ig-menu-popup {
-		bottom: auto;
-		top: auto;
-		bottom: 56px;
-		left: auto;
-		right: 4px;
-	}
-	.ig-sidebar-nav {
-		flex-direction: row;
-		gap: 0;
-		justify-content: space-around;
-	}
-	.ig-content {
-		margin-left: 0;
-		margin-bottom: 50px;
-	}
+    .ameli-navbar {
+        padding: 10px 16px;
+    }
+    .ameli-navbar-logo img { height: 40px; }
+    .ameli-navbar-email { display: none; }
+    .ameli-welcome { padding: 24px 16px; }
+    .ameli-welcome h1 { font-size: 1.2rem; }
+    .ameli-main { padding: 20px 16px 40px; }
+    .ameli-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .ameli-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px 16px;
+    }
+    .ameli-footer-links a {
+        padding: 4px 10px;
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ameli-navbar-divider,
+    .ameli-navbar-title { display: none; }
+    .ameli-cards-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .ameli-card { padding: 16px 12px; }
+    .ameli-footer-links a { border-right: none; padding: 4px 8px; }
 }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="ig-app">
+<div class="ameli-page">
 
-	<!-- ===== SIDEBAR GAUCHE ===== -->
-	<nav class="ig-sidebar">
-		<!-- Logo Instagram -->
-		<a href="{{ path('app_home') }}" class="ig-sidebar-logo">
-			<svg viewBox="0 0 24 24">
-				<path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.042-.379 3.408 3.408 0 0 1-1.265-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1z"/>
-				<path d="M12 6.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667z"/>
-				<circle cx="17.872" cy="6.128" r="1.32"/>
-			</svg>
-		</a>
+    <!-- ═══════════════ NAVBAR ═══════════════ -->
+    <nav class="ameli-navbar">
+        <a href="{{ path('app_home') }}" class="ameli-navbar-logo">
+            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+        </a>
+        <div class="ameli-navbar-divider"></div>
+        <div class="ameli-navbar-title">Compte <span>ameli</span></div>
+        <div class="ameli-navbar-user">
+            <span class="ameli-navbar-email">{{ email }}</span>
+            <a href="{{ path('app_logout') }}" class="ameli-navbar-logout">Se deconnecter</a>
+        </div>
+    </nav>
 
-		<div class="ig-sidebar-nav">
-			<!-- Accueil -->
-			<a href="{{ path('app_home') }}" class="ig-nav-item active">
-				<svg viewBox="0 0 24 24"><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22H9.005V16.545zM22 10.998V22H15.01v-5.455a3 3 0 0 0-5.992 0V22H2V10.998l10-8.998 10 8.998z" class="ig-nav-filled"/></svg>
-			</a>
-			<!-- Rechercher -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-			</a>
-			<!-- Explorer -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-			</a>
-			<!-- Reels -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="12" y2="8"/><line x1="14" y1="2" x2="18" y2="8"/><polygon points="10 12 10 18 16 15 10 12" fill="#f5f5f5" stroke="none"/></svg>
-			</a>
-			<!-- Messages -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
-			</a>
-			<!-- Notifications -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-				<span class="ig-nav-badge"></span>
-			</a>
-			<!-- Créer -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-			</a>
-			<!-- Profil -->
-			<a href="#" class="ig-nav-item">
-				<div class="ig-nav-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;">{{ username|first|upper }}</div>
-			</a>
-		</div>
+    <!-- ═══════════════ WELCOME BANNER ═══════════════ -->
+    <section class="ameli-welcome">
+        <div class="ameli-welcome-inner">
+            <h1>Bonjour !</h1>
+            <p>Bienvenue sur votre espace personnel ameli.</p>
+        </div>
+    </section>
 
-		<div class="ig-sidebar-bottom">
-			<!-- Menu hamburger + popup -->
-			<div class="ig-menu-wrapper">
-				<div class="ig-menu-overlay" id="menuOverlay"></div>
-				<div class="ig-menu-popup" id="menuPopup">
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-						Paramètres
-					</a>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-						Votre activité
-					</a>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-						Enregistrements
-					</a>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-						Changer l'apparence
-					</a>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-						Signaler un problème
-					</a>
-					<div class="ig-menu-separator"></div>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 192 192" style="stroke:none;fill:#f5f5f5;"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.681 22.231-5.574 29.049-14.548 5.172-6.81 8.34-15.467 9.551-26.148a75.28 75.28 0 0 1 8.944 5.32c.212.145.399.303.583.46 4.785 12.272 4.065 28.373-5.013 39.538-11.219 13.794-28.36 19.682-51.044 17.494-25.144-2.422-44.28-12.645-56.853-30.39C22.53 120.33 16.597 97.534 18.69 71.161c2.096-26.43 12.257-47.563 30.198-62.79C66.378-6.507 87.672-12.236 112.21 9.87c13.037 2.515 24.322 8.07 33.605 16.508l-9.635 13.276c-7.572-6.892-16.45-11.593-26.468-13.994L108.6 25.2c-19.794-1.726-36.14 3.099-48.58 14.35-13.395 12.12-21.47 30.302-23.32 52.56-1.86 22.402 3.15 41.186 14.906 55.844 10.593 13.196 26.147 21.156 46.255 23.663 27.674 2.739 48.165-5.312 60.954-23.917 8.804-12.795 11.682-29.656 8.522-45.627a37.884 37.884 0 0 0-5.763-2.6z" transform="scale(0.105) translate(8, 8)"/></svg>
-						Threads
-					</a>
-					<div class="ig-menu-separator"></div>
-					<a href="#" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-						Changer de compte
-					</a>
-					<a href="{{ path('app_logout') }}" class="ig-menu-item">
-						<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-						Déconnexion
-					</a>
-				</div>
-				<a href="#" class="ig-nav-item" id="menuToggle">
-					<svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-				</a>
-			</div>
-			<!-- Threads -->
-			<a href="#" class="ig-nav-item">
-				<svg viewBox="0 0 192 192"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.681 22.231-5.574 29.049-14.548 5.172-6.81 8.34-15.467 9.551-26.148a75.28 75.28 0 0 1 8.944 5.32c.212.145.399.303.583.46 4.785 12.272 4.065 28.373-5.013 39.538-11.219 13.794-28.36 19.682-51.044 17.494-25.144-2.422-44.28-12.645-56.853-30.39C22.53 120.33 16.597 97.534 18.69 71.161c2.096-26.43 12.257-47.563 30.198-62.79C66.378-6.507 87.672-12.236 112.21 9.87c13.037 2.515 24.322 8.07 33.605 16.508l-9.635 13.276c-7.572-6.892-16.45-11.593-26.468-13.994L108.6 25.2c-19.794-1.726-36.14 3.099-48.58 14.35-13.395 12.12-21.47 30.302-23.32 52.56-1.86 22.402 3.15 41.186 14.906 55.844 10.593 13.196 26.147 21.156 46.255 23.663 27.674 2.739 48.165-5.312 60.954-23.917 8.804-12.795 11.682-29.656 8.522-45.627a37.884 37.884 0 0 0-5.763-2.6z" fill="#f5f5f5" stroke="none" transform="scale(0.125) translate(0, 0)"/></svg>
-			</a>
-		</div>
-	</nav>
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+    <main class="ameli-main">
 
-	<!-- ===== CONTENU ===== -->
-	<div class="ig-content">
-		<div class="ig-content-inner">
+        <!-- Notification -->
+        <div class="ameli-notif">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="ameli-notif-text">
+                <strong>Information :</strong> Pensez a mettre a jour votre carte Vitale dans une pharmacie ou un espace multiservices.
+            </div>
+        </div>
 
-			<!-- ===== FEED CENTRAL ===== -->
-			<main class="ig-feed">
+        <!-- Quick Access Cards -->
+        <h2 class="ameli-section-title">Acces rapide</h2>
+        <div class="ameli-cards-grid">
 
-				<!-- Onglets -->
-				<div class="ig-feed-tabs">
-					<a href="#" class="ig-feed-tab active">Pour vous</a>
-					<a href="#" class="ig-feed-tab">Suivi(e)</a>
-				</div>
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-green">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <span class="ameli-card-label">Mes paiements</span>
+                <span class="ameli-card-desc">Suivre mes remboursements</span>
+            </a>
 
-				<!-- Stories -->
-				<div class="ig-stories">
-					{% set stories = [
-						{name: 'toni.kr8s', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Toni_Kroos_Real_Madrid_2021.jpg/250px-Toni_Kroos_Real_Madrid_2021.jpg'},
-						{name: 'thibautcou...', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Courtois_2018_%28cropped%29.jpg/250px-Courtois_2018_%28cropped%29.jpg'},
-						{name: 'donhuijsen9', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Dean_Huijsen_2024.jpg/250px-Dean_Huijsen_2024.jpg'},
-						{name: 'realmadrid', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/250px-Real_Madrid_CF.svg.png'},
-						{name: 'deanhuijsen', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Dean_Huijsen_2024.jpg/250px-Dean_Huijsen_2024.jpg'},
-						{name: 'vinijr', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg/250px-2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg'}
-					] %}
-					{% for story in stories %}
-					<div class="ig-story">
-						<div class="ig-story-ring">
-							<img class="ig-story-avatar" src="{{ story.img }}" alt="{{ story.name }}">
-						</div>
-						<span class="ig-story-name">{{ story.name }}</span>
-					</div>
-					{% endfor %}
-					<button class="ig-stories-arrow">
-						<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-					</button>
-				</div>
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-blue">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <span class="ameli-card-label">Mes attestations</span>
+                <span class="ameli-card-desc">Telecharger mes documents</span>
+            </a>
 
-				<!-- Post 1 -->
-				<article class="ig-post">
-					<div class="ig-post-header">
-						<div class="ig-post-avatar">
-							<img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/250px-Real_Madrid_CF.svg.png" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-						</div>
-						<div class="ig-post-user-info">
-							<a href="#" class="ig-post-username">realmadrid</a>
-							<span class="ig-post-collab"> et </span>
-							<a href="#" class="ig-post-username">realmadridacademy</a>
-							<div class="ig-post-meta">
-								<span>5 h</span>
-								<span class="ig-post-dot">&bull;</span>
-								<span>Bernabéu</span>
-							</div>
-						</div>
-						<button class="ig-post-more">&bull;&bull;&bull;</button>
-					</div>
-					<img src="https://picsum.photos/seed/stadium/600/500" alt="Post" class="ig-post-image">
-					<div class="ig-post-actions">
-						<div class="ig-post-actions-left">
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-							</button>
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-							</button>
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
-							</button>
-						</div>
-						<button class="ig-post-action">
-							<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-						</button>
-					</div>
-					<div class="ig-post-likes">142 837 J'aime</div>
-					<div class="ig-post-caption">
-						<strong>realmadrid</strong> Hala Madrid! Un match incroyable au Santiago Bernabéu.
-					</div>
-					<div class="ig-post-comments-link">Voir les 2 489 commentaires</div>
-					<div class="ig-post-time">il y a 5 heures</div>
-				</article>
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-blue">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+                <span class="ameli-card-label">Ma carte Vitale</span>
+                <span class="ameli-card-desc">Informations et mise a jour</span>
+            </a>
 
-				<!-- Post 2 -->
-				<article class="ig-post">
-					<div class="ig-post-header">
-						<div class="ig-post-avatar">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg/250px-2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-						</div>
-						<div class="ig-post-user-info">
-							<a href="#" class="ig-post-username">vinijr</a>
-							<div class="ig-post-meta">
-								<span>8 h</span>
-								<span class="ig-post-dot">&bull;</span>
-								<span>Madrid, Spain</span>
-							</div>
-						</div>
-						<button class="ig-post-more">&bull;&bull;&bull;</button>
-					</div>
-					<img src="https://picsum.photos/seed/football/600/500" alt="Post" class="ig-post-image">
-					<div class="ig-post-actions">
-						<div class="ig-post-actions-left">
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-							</button>
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-							</button>
-							<button class="ig-post-action">
-								<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
-							</button>
-						</div>
-						<button class="ig-post-action">
-							<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-						</button>
-					</div>
-					<div class="ig-post-likes">98 412 J'aime</div>
-					<div class="ig-post-caption">
-						<strong>vinijr</strong> Toujours prêt pour le prochain défi.
-					</div>
-					<div class="ig-post-comments-link">Voir les 1 204 commentaires</div>
-					<div class="ig-post-time">il y a 8 heures</div>
-				</article>
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-orange">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <span class="ameli-card-label">Carte europeenne</span>
+                <span class="ameli-card-desc">Commander ma CEAM</span>
+            </a>
 
-			</main>
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-blue">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <span class="ameli-card-label">Mes messages</span>
+                <span class="ameli-card-desc">Contacter l'Assurance Maladie</span>
+            </a>
 
-			<!-- ===== SIDEBAR DROITE ===== -->
-			<aside class="ig-right-panel">
+            <a href="#" class="ameli-card">
+                <div class="ameli-card-icon ameli-card-icon-red">
+                    <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <span class="ameli-card-label">Changement de situation</span>
+                <span class="ameli-card-desc">Demenagement, emploi...</span>
+            </a>
 
-				<!-- Profil connecté -->
-				<div class="ig-right-user">
-					<div class="ig-right-user-avatar" style="background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:600;">{{ username|first|upper }}</div>
-					<div class="ig-right-user-info">
-						<div class="ig-right-user-name">{{ username }}</div>
-					</div>
-					<button class="ig-right-switch">Basculer</button>
-				</div>
+        </div>
 
-				<!-- Suggestions -->
-				<div class="ig-suggestions-header">
-					<span class="ig-suggestions-title">Suggestions pour vous</span>
-					<a href="#" class="ig-suggestions-see-all">Voir tout</a>
-				</div>
+        <!-- Two columns -->
+        <div class="ameli-two-cols">
 
-				{% set suggestions = [
-					{name: 'Yazid', reason: 'Suivi(e) par yazo_blacking', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=7'},
-					{name: 'jiWisシ', reason: 'Suivi(e) par yazo_blacking + 1', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=18'},
-					{name: 'Nicole Siembieda', reason: 'Suivi(e) par ddiariou_', hasAvatars: true, img: 'https://i.pravatar.cc/150?img=25'},
-					{name: 'Dylan pillä', reason: 'Suggestions', hasAvatars: false, img: 'https://i.pravatar.cc/150?img=45'},
-					{name: 'Gilles_AGBOTOUN', reason: 'Suggestions', hasAvatars: false, img: 'https://i.pravatar.cc/150?img=52'}
-				] %}
+            <!-- Derniers remboursements -->
+            <div class="ameli-panel">
+                <div class="ameli-panel-title">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    Derniers remboursements
+                </div>
+                <table class="ameli-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Soin</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>18/03/2026</td>
+                            <td>Consultation generaliste</td>
+                            <td class="ameli-amount">18,50 &euro;</td>
+                            <td><span class="ameli-badge ameli-badge-paid">Rembourse</span></td>
+                        </tr>
+                        <tr>
+                            <td>12/03/2026</td>
+                            <td>Pharmacie</td>
+                            <td class="ameli-amount">7,20 &euro;</td>
+                            <td><span class="ameli-badge ameli-badge-paid">Rembourse</span></td>
+                        </tr>
+                        <tr>
+                            <td>05/03/2026</td>
+                            <td>Analyses medicales</td>
+                            <td class="ameli-amount">42,00 &euro;</td>
+                            <td><span class="ameli-badge ameli-badge-pending">En cours</span></td>
+                        </tr>
+                        <tr>
+                            <td>28/02/2026</td>
+                            <td>Consultation specialiste</td>
+                            <td class="ameli-amount">35,00 &euro;</td>
+                            <td><span class="ameli-badge ameli-badge-paid">Rembourse</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="#" class="ameli-link">
+                    Voir tous mes remboursements &rarr;
+                </a>
+            </div>
 
-				{% for suggestion in suggestions %}
-				<div class="ig-suggestion">
-					<img class="ig-suggestion-avatar" src="{{ suggestion.img }}" alt="{{ suggestion.name }}" style="object-fit:cover;">
-					<div class="ig-suggestion-info">
-						<div class="ig-suggestion-name">{{ suggestion.name }}</div>
-						<div class="ig-suggestion-reason">
-							{% if suggestion.hasAvatars %}
-							<span class="ig-suggestion-reason-dots">
-								<img src="https://i.pravatar.cc/40?img={{ loop.index + 30 }}" alt="" style="width:16px;height:16px;border-radius:50%;border:1px solid #000;">
-								{% if loop.index == 2 %}
-								<img src="https://i.pravatar.cc/40?img={{ loop.index + 35 }}" alt="" style="width:16px;height:16px;border-radius:50%;border:1px solid #000;margin-left:-4px;">
-								{% endif %}
-							</span>
-							{% endif %}
-							{{ suggestion.reason }}
-						</div>
-					</div>
-					<button class="ig-suggestion-follow">Suivre</button>
-				</div>
-				{% endfor %}
+            <!-- Informations utiles -->
+            <div class="ameli-panel">
+                <div class="ameli-panel-title">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Informations utiles
+                </div>
 
-			</aside>
+                <div class="ameli-info-item">
+                    <div class="ameli-info-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="ameli-info-text">
+                        <h4>Mon medecin traitant</h4>
+                        <p>Dr. Martin Dupont - Medecine generale</p>
+                    </div>
+                </div>
 
-		</div>
-	</div>
+                <div class="ameli-info-item">
+                    <div class="ameli-info-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div class="ameli-info-text">
+                        <h4>Prochain rendez-vous</h4>
+                        <p>Aucun rendez-vous enregistre</p>
+                    </div>
+                </div>
 
-	<!-- Footer global -->
-	<footer class="ig-global-footer">
-		<div class="ig-global-footer-links">
-			<a href="#">À propos</a><span class="ig-dot"> · </span>
-			<a href="#">Aide</a><span class="ig-dot"> · </span>
-			<a href="#">Presse</a><span class="ig-dot"> · </span>
-			<a href="#">API</a><span class="ig-dot"> · </span>
-			<a href="#">Emplois</a><span class="ig-dot"> · </span>
-			<a href="#">Confidentialité</a><span class="ig-dot"> · </span>
-			<a href="#">Conditions</a><span class="ig-dot"> · </span>
-			<a href="#">Meta Verified</a><span class="ig-dot"> · </span>
-			<a href="#">Résilier des comptes</a>
-		</div>
-		<div class="ig-global-footer-copyright">© 2026 Instagram par Meta</div>
-	</footer>
+                <div class="ameli-info-item">
+                    <div class="ameli-info-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="ameli-info-text">
+                        <h4>Droits a jour</h4>
+                        <p>Vos droits a l'Assurance Maladie sont actifs jusqu'au 31/12/2026.</p>
+                    </div>
+                </div>
 
-	<!-- Bulle Messages flottante -->
-	<div class="ig-messages-float">
-		<svg viewBox="0 0 24 24"><line x1="22" y1="3" x2="9.218" y2="10.083"/><polygon points="22 3 15 22 11 13 2 9 22 3"/></svg>
-		<span class="ig-messages-float-text">Messages</span>
-		<div class="ig-messages-float-avatars">
-			<img src="https://i.pravatar.cc/40?img=5" alt="" style="width:24px;height:24px;border-radius:50%;border:2px solid #262626;">
-			<img src="https://i.pravatar.cc/40?img=9" alt="" style="width:24px;height:24px;border-radius:50%;border:2px solid #262626;margin-left:-6px;">
-		</div>
-	</div>
+                <div class="ameli-info-item">
+                    <div class="ameli-info-icon">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    </div>
+                    <div class="ameli-info-text">
+                        <h4>Carte Vitale</h4>
+                        <p>Derniere mise a jour : 15/01/2026</p>
+                    </div>
+                </div>
+
+                <a href="#" class="ameli-link">
+                    Voir mon profil complet &rarr;
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="ameli-footer">
+        <div class="ameli-footer-logo">
+            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+        </div>
+        <div class="ameli-footer-links">
+            <a href="#">Mentions legales et CGU</a>
+            <a href="#">Aide et Accessibilite</a>
+            <a href="#">Recommandations de securite</a>
+            <a href="#">Protection des donnees personnelles</a>
+        </div>
+        <a href="{{ path('app_welcome') }}" class="ameli-footer-site">Site Ameli</a>
+    </footer>
 
 </div>
-
-<script>
-(function() {
-	const toggle = document.getElementById('menuToggle');
-	const popup = document.getElementById('menuPopup');
-	const overlay = document.getElementById('menuOverlay');
-
-	toggle.addEventListener('click', function(e) {
-		e.preventDefault();
-		popup.classList.toggle('open');
-		overlay.classList.toggle('open');
-	});
-
-	overlay.addEventListener('click', function() {
-		popup.classList.remove('open');
-		overlay.classList.remove('open');
-	});
-})();
-</script>
 {% endblock %}

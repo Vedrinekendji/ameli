@@ -20,7 +20,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Instagram Clone - Admin');
+            ->setTitle('Ameli - Admin');
     }
 
     public function configureMenuItems(): iterable

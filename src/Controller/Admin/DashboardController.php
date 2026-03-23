@@ -27,7 +27,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Gestion');
-        yield MenuItem::linkToRoute('Utilisateurs', 'fa fa-users', 'admin_user_index');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);
         yield MenuItem::linkToRoute('Se déconnecter', 'fa fa-sign-out', 'app_logout');
     }
 }

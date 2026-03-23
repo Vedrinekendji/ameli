@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Compte ameli - Accueil{% endblock %}
+{% block title %}Compte ameli - Votre assurance maladie{% endblock %}
 
 {% block stylesheets %}
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,18 +32,21 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-top: 128px;
 }
 
 /* ═══════════════ NAVBAR ═══════════════ */
 .ameli-navbar {
     background: var(--ameli-bg);
-    border-bottom: 3px solid var(--ameli-blue);
-    padding: 12px 40px;
+    border-bottom: none;
+    padding: 24px 48px;
     display: flex;
     align-items: center;
-    gap: 16px;
-    position: sticky;
+    gap: 0;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
@@ -52,19 +55,22 @@ html, body {
     display: flex;
     align-items: center;
     text-decoration: none;
+    height: 80px;
+    overflow: hidden;
 }
 
 .ameli-navbar-logo img {
-    height: 52px;
+    height: 240px;
     width: auto;
     object-fit: contain;
+    margin: -80px 0;
 }
 
 .ameli-navbar-divider {
-    width: 1px;
-    height: 36px;
+    width: 2px;
+    height: 48px;
     background: var(--ameli-border);
-    margin: 0 12px;
+    margin: 0 8px 0 16px;
 }
 
 .ameli-navbar-title {
@@ -72,10 +78,11 @@ html, body {
     font-weight: 600;
     color: var(--ameli-blue);
     letter-spacing: 0.2px;
+    margin-left: 0;
 }
 
 .ameli-navbar-title span {
-    color: var(--ameli-green);
+    color: #00B3A4;
 }
 
 /* ═══════════════ HERO SECTION ═══════════════ */
@@ -107,10 +114,10 @@ html, body {
 }
 
 .ameli-hero h1 {
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: 400;
     color: #ffffff;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .ameli-hero h1 strong {
@@ -118,33 +125,35 @@ html, body {
 }
 
 .ameli-hero-subtitle {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 40px;
-    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 50px;
+    line-height: 1.7;
 }
 
 .ameli-hero-columns {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: center;
     gap: 0;
 }
 
 .ameli-hero-col {
     flex: 1;
-    max-width: 280px;
+    max-width: 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 24px;
+    justify-content: flex-end;
+    padding: 0 32px;
 }
 
 .ameli-hero-col-label {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.85);
-    margin-bottom: 20px;
-    line-height: 1.4;
+    font-size: 1.05rem;
+    color: #ffffff;
+    margin-bottom: 24px;
+    flex: 1;
+    line-height: 1.5;
 }
 
 .ameli-hero-separator {
@@ -156,9 +165,9 @@ html, body {
 
 .ameli-hero-btn {
     display: inline-block;
-    padding: 14px 36px;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    padding: 14px 44px;
+    border-radius: 50px;
+    font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
@@ -166,6 +175,7 @@ html, body {
     font-family: inherit;
     border: none;
     letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 .ameli-hero-btn-primary {
@@ -180,8 +190,8 @@ html, body {
 
 .ameli-hero-btn-secondary {
     background: #ffffff;
-    color: var(--ameli-blue);
-    border: 2px solid var(--ameli-blue);
+    color: var(--ameli-text);
+    border: 2px solid #ffffff;
 }
 
 .ameli-hero-btn-secondary:hover {

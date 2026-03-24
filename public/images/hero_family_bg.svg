@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5a3d;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#2d7a5a;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#c47a3d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a85c2f;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fond dégradé -->
+  <rect width="1200" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Silhouette femme et enfant côté droit -->
+  <g opacity="0.8">
+    <!-- Enfant (petit) -->
+    <!-- Tête enfant -->
+    <circle cx="850" cy="200" r="35" fill="#4a3728"/>
+    
+    <!-- Corps enfant -->
+    <rect x="820" y="240" width="60" height="80" rx="8" fill="#5a4638"/>
+    
+    <!-- Bras enfant gauche -->
+    <ellipse cx="795" cy="270" rx="18" ry="50" fill="#4a3728"/>
+    
+    <!-- Bras enfant droit (levé) -->
+    <ellipse cx="905" cy="250" rx="18" ry="60" fill="#4a3728"/>
+    
+    <!-- Jambes enfant -->
+    <ellipse cx="820" cy="340" rx="15" ry="50" fill="#4a3728"/>
+    <ellipse cx="860" cy="340" rx="15" ry="50" fill="#4a3728"/>
+    
+    <!-- Femme (mère portant l'enfant) -->
+    <!-- Tête femme -->
+    <circle cx="700" cy="140" r="45" fill="#6b5244"/>
+    
+    <!-- Cheveux femme (cheveux longs) -->
+    <ellipse cx="700" cy="110" rx="55" ry="50" fill="#5a4433"/>
+    
+    <!-- Corps femme -->
+    <path d="M 670 190 Q 660 280 680 380 L 720 380 Q 740 280 730 190 Z" fill="#7a6554"/>
+    
+    <!-- Bras gauche femme (portant enfant) -->
+    <ellipse cx="640" cy="240" rx="22" ry="110" fill="#6b5244" transform="rotate(-30 640 240)"/>
+    
+    <!-- Bras droit femme -->
+    <ellipse cx="760" cy="260" rx="20" ry="100" fill="#6b5244" transform="rotate(40 760 260)"/>
+    
+    <!-- Jambes femme -->
+    <ellipse cx="685" cy="420" rx="20" ry="70" fill="#5a4433"/>
+    <ellipse cx="715" cy="420" rx="20" ry="70" fill="#5a4433"/>
+  </g>
+  
+  <!-- Silhouette homme côté gauche -->
+  <g opacity="0.7">
+    <!-- Tête homme -->
+    <circle cx="300" cy="180" r="50" fill="#6b5244"/>
+    
+    <!-- Cheveux homme -->
+    <path d="M 250 180 Q 250 130 300 130 Q 350 130 350 180 Z" fill="#5a4433"/>
+    
+    <!-- Corps homme -->
+    <path d="M 265 240 Q 255 340 275 420 L 325 420 Q 345 340 335 240 Z" fill="#8a6f60"/>
+    
+    <!-- Bras gauche homme -->
+    <ellipse cx="235" cy="280" rx="22" ry="120" fill="#6b5244" transform="rotate(-20 235 280)"/>
+    
+    <!-- Bras droit homme -->
+    <ellipse cx="365" cy="280" rx="22" ry="120" fill="#6b5244" transform="rotate(20 365 280)"/>
+    
+    <!-- Jambes homme -->
+    <ellipse cx="280" cy="460" rx="22" ry="80" fill="#5a4433"/>
+    <ellipse cx="320" cy="460" rx="22" ry="80" fill="#5a4433"/>
+  </g>
+  
+  <!-- Détails supplémentaires pour profondeur -->
+  <g opacity="0.3">
+    <circle cx="950" cy="550" r="80" fill="#ffffff"/>
+    <circle cx="150" cy="480" r="100" fill="#ffffff"/>
+    <circle cx="1050" cy="450" r="60" fill="#ffffff"/>
+  </g>
+</svg>

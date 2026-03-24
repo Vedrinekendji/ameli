@@ -55,15 +55,15 @@ html, body {
     display: flex;
     align-items: center;
     text-decoration: none;
-    height: 80px;
-    overflow: hidden;
+    height: 60px;
+    overflow: visible;
 }
 
 .ameli-navbar-logo img {
-    height: 240px;
+    height: 60px;
     width: auto;
     object-fit: contain;
-    margin: -80px 0;
+    margin: 0;
 }
 
 .ameli-navbar-divider {
@@ -88,7 +88,10 @@ html, body {
 /* ═══════════════ HERO SECTION ═══════════════ */
 .ameli-hero {
     position: relative;
-    background: linear-gradient(135deg, #1a3a6b 0%, #2c5aa0 40%, #e8943a 70%, #d4692e 100%);
+    background: linear-gradient(135deg, #1a3a6b 0%, #2c5aa0 40%, #e8943a 70%, #d4692e 100%), url('/images/hero_family_beach.svg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
     min-height: 420px;
     display: flex;
     flex-direction: column;
@@ -266,11 +269,11 @@ html, body {
     max-width: 700px;
 }
 
-/* ═══════════════ APP MOBILE SECTION ═══════════════ */
+/* ═══════════════ APPLICATION MOBILE SECTION ═══════════════ */
 .ameli-app-section {
     padding: 50px 24px;
     text-align: center;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -278,97 +281,77 @@ html, body {
     font-size: 1.5rem;
     font-weight: 400;
     color: var(--ameli-text);
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .ameli-app-section h2 strong {
     font-weight: 700;
 }
 
-.ameli-app-banner {
-    background: linear-gradient(135deg, #1746A2 0%, #2c5aa0 50%, #e85d4a 100%);
-    border-radius: 12px;
-    padding: 40px;
+.ameli-app-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 40px;
-    max-width: 700px;
-    margin: 0 auto 30px;
-    overflow: hidden;
+    margin-bottom: 40px;
+    background: #f9f9f9;
+    padding: 40px;
+    border-radius: 8px;
 }
 
-.ameli-app-banner-text {
+.ameli-app-left {
+    flex: 1;
     text-align: left;
-    color: #ffffff;
 }
 
-.ameli-app-banner-text h3 {
+.ameli-app-left h3 {
     font-size: 1.3rem;
     font-weight: 600;
-    margin-bottom: 6px;
-    line-height: 1.3;
-}
-
-.ameli-app-banner-text p {
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-    opacity: 0.9;
+    color: var(--ameli-text);
+    margin-bottom: 24px;
+    line-height: 1.4;
 }
 
 .ameli-app-stores {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.ameli-app-stores a {
-    display: inline-block;
-    transition: transform 0.2s;
-}
-
-.ameli-app-stores a:hover {
-    transform: scale(1.05);
-}
-
-.ameli-store-badge {
-    background: #000;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-decoration: none;
-    display: flex;
+.ameli-app-store-btn {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    background: #000000;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
 }
 
-.ameli-store-badge svg {
+.ameli-app-store-btn:hover {
+    background: #222222;
+    transform: translateY(-2px);
+}
+
+.ameli-app-store-btn svg {
     width: 20px;
     height: 20px;
-    fill: #ffffff;
 }
 
-.ameli-store-badge-label {
+.ameli-app-right {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    line-height: 1.2;
-}
-
-.ameli-store-badge-label small {
-    font-size: 0.6rem;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-.ameli-app-phones {
-    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.ameli-app-phones svg {
-    width: 160px;
+.ameli-phone-mockup {
+    width: 100%;
+    max-width: 400px;
     height: auto;
 }
 
@@ -378,6 +361,22 @@ html, body {
     border: none;
     margin: 0 auto;
     max-width: 700px;
+}
+
+@media (max-width: 768px) {
+    .ameli-app-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .ameli-app-left h3 {
+        text-align: center;
+    }
+
+    .ameli-app-stores {
+        justify-content: center;
+    }
 }
 
 /* ═══════════════ PARTNERS SECTION ═══════════════ */
@@ -427,6 +426,7 @@ html, body {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
+    min-height: 80px;
 }
 
 .ameli-footer-logo {
@@ -436,10 +436,12 @@ html, body {
 }
 
 .ameli-footer-logo img {
-    height: 50px;
+    height: 60px;
     width: auto;
     object-fit: contain;
     image-rendering: -webkit-optimize-contrast;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
 }
 
 .ameli-footer-links {
@@ -549,7 +551,7 @@ html, body {
     <!-- ═══════════════ NAVBAR ═══════════════ -->
     <nav class="ameli-navbar">
         <a href="{{ path('app_welcome') }}" class="ameli-navbar-logo">
-            <img src="{{ asset('images/ameli_assurance_logo.png') }}" alt="l'Assurance Maladie">
+            <img src="{{ asset('images/ameli_official_complete.svg') }}" alt="l'Assurance Maladie">
         </a>
         <div class="ameli-navbar-divider"></div>
         <div class="ameli-navbar-title">Compte <span>ameli</span></div>
@@ -637,37 +639,58 @@ html, body {
     <section class="ameli-app-section">
         <h2>Télécharger l'application mobile du <strong>compte ameli</strong></h2>
 
-        <div class="ameli-app-banner">
-            <div class="ameli-app-banner-text">
+        <div class="ameli-app-container">
+            <div class="ameli-app-left">
                 <h3>Découvrez l'application<br>mobile du compte ameli</h3>
                 <div class="ameli-app-stores">
-                    <a href="#" class="ameli-store-badge">
-                        <svg viewBox="0 0 24 24"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.53 12.9 20.18 13.18L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
-                        <span class="ameli-store-badge-label">
-                            <small>Disponible sur</small>
-                            Google Play
-                        </span>
+                    <a href="#" class="ameli-app-store-btn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF">
+                            <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.53 12.9 20.18 13.18L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/>
+                        </svg>
+                        <span>Google Play</span>
                     </a>
-                    <a href="#" class="ameli-store-badge">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.72 12.58 5.72C13.38 5.72 14.88 4.62 16.44 4.8C17.1 4.83 18.91 5.09 20.07 6.81C19.97 6.87 17.8 8.14 17.83 10.79C17.86 13.96 20.57 15.04 20.6 15.05C20.57 15.12 20.17 16.54 19.18 18.01L18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-                        <span class="ameli-store-badge-label">
-                            <small>Disponible sur</small>
-                            App Store
-                        </span>
+                    <a href="#" class="ameli-app-store-btn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF">
+                            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.72 12.58 5.72C13.38 5.72 14.88 4.62 16.44 4.8C17.1 4.83 18.91 5.09 20.07 6.81C19.97 6.87 17.8 8.14 17.83 10.79C17.86 13.96 20.57 15.04 20.6 15.05C20.57 15.12 20.17 16.54 19.18 18.01L18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                        </svg>
+                        <span>App Store</span>
                     </a>
                 </div>
             </div>
-            <div class="ameli-app-phones">
-                <svg width="160" height="120" viewBox="0 0 160 120">
-                    <rect x="20" y="5" width="50" height="90" rx="8" fill="#fff" stroke="#ccc" stroke-width="1"/>
-                    <rect x="25" y="15" width="40" height="65" rx="2" fill="#e8f0fe"/>
-                    <circle cx="45" cy="88" r="4" fill="#ccc"/>
-                    <rect x="60" y="15" width="50" height="90" rx="8" fill="#fff" stroke="#ccc" stroke-width="1"/>
-                    <rect x="65" y="25" width="40" height="65" rx="2" fill="#e6f5ed"/>
-                    <circle cx="85" cy="98" r="4" fill="#ccc"/>
-                    <rect x="95" y="10" width="50" height="90" rx="8" fill="#fff" stroke="#ccc" stroke-width="1"/>
-                    <rect x="100" y="20" width="40" height="65" rx="2" fill="#fef3e0"/>
-                    <circle cx="120" cy="93" r="4" fill="#ccc"/>
+
+            <div class="ameli-app-right">
+                <svg class="ameli-phone-mockup" viewBox="0 0 520 380" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Fond illustration -->
+                    <defs>
+                        <linearGradient id="appBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FF6B54;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="520" height="180" fill="url(#appBg)"/>
+                    
+                    <!-- Téléphone 1 -->
+                    <g transform="translate(40, 100)">
+                        <rect width="90" height="160" rx="8" fill="#FFFFFF" stroke="#999" stroke-width="1"/>
+                        <rect x="3" y="8" width="84" height="130" rx="4" fill="#F0F0F0"/>
+                        <circle cx="45" cy="145" r="3" fill="#999"/>
+                    </g>
+
+                    <!-- Téléphone 2 (principal) -->
+                    <g transform="translate(160, 80)">
+                        <rect width="100" height="180" rx="10" fill="#FFFFFF" stroke="#999" stroke-width="2"/>
+                        <rect x="4" y="10" width="92" height="145" rx="6" fill="#E6F5ED"/>
+                        <rect x="10" y="15" width="80" height="40" rx="3" fill="#00853E" opacity="0.3"/>
+                        <rect x="10" y="60" width="80" height="30" rx="2" fill="#1746A2" opacity="0.3"/>
+                        <circle cx="50" cy="163" r="4" fill="#999"/>
+                    </g>
+
+                    <!-- Téléphone 3 -->
+                    <g transform="translate(300, 110)">
+                        <rect width="90" height="160" rx="8" fill="#FFFFFF" stroke="#999" stroke-width="1"/>
+                        <rect x="3" y="8" width="84" height="130" rx="4" fill="#FEF3E0"/>
+                        <circle cx="45" cy="145" r="3" fill="#999"/>
+                    </g>
                 </svg>
             </div>
         </div>
@@ -701,7 +724,7 @@ html, body {
     <!-- ═══════════════ FOOTER ═══════════════ -->
     <footer class="ameli-footer">
         <div class="ameli-footer-logo">
-            <img src="{{ asset('images/ameli_footer_logo.png') }}" alt="l'Assurance Maladie">
+            <img src="{{ asset('images/ameli_official_complete.svg') }}" alt="l'Assurance Maladie">
         </div>
         <div class="ameli-footer-links">
             <a href="#">Mentions légales et CGU</a>

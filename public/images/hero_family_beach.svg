@@ -1,0 +1,90 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sunsetGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#FFB347;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF8C42;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#D2691E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C42;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#FFB347;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#D4A574;stop-opacity:0.6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ciel avec dégradé coucher de soleil -->
+  <rect width="1200" height="600" fill="url(#sunsetGradient)"/>
+
+  <!-- Soleil -->
+  <circle cx="600" cy="200" r="80" fill="#FFD700" opacity="0.8"/>
+  <circle cx="600" cy="200" r="75" fill="#FFA500" opacity="0.9"/>
+
+  <!-- Océan -->
+  <rect x="0" y="350" width="1200" height="250" fill="url(#oceanGradient)"/>
+
+  <!-- Ondulations de l'eau -->
+  <path d="M 0 350 Q 150 340 300 350 T 600 350 T 900 350 T 1200 350" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.3"/>
+  <path d="M 0 380 Q 150 370 300 380 T 600 380 T 900 380 T 1200 380" stroke="#FFFFFF" stroke-width="0.5" fill="none" opacity="0.2"/>
+
+  <!-- Plage -->
+  <rect x="0" y="350" width="1200" height="80" fill="#D2B48C" opacity="0.9"/>
+
+  <!-- Silhouettes en arrière-plan (autres personnes près de l'eau) -->
+  <g opacity="0.4">
+    <ellipse cx="150" cy="380" rx="8" ry="25" fill="#3D2817"/>
+    <ellipse cx="250" cy="385" rx="6" ry="20" fill="#3D2817"/>
+    <ellipse cx="1050" cy="380" rx="7" ry="24" fill="#3D2817"/>
+  </g>
+
+  <!-- Père (silhouette au 1er plan) -->
+  <g opacity="0.85">
+    <!-- Pieds du père -->
+    <ellipse cx="550" cy="480" rx="12" ry="8" fill="#5A4A3A"/>
+    <ellipse cx="580" cy="485" rx="12" ry="8" fill="#5A4A3A"/>
+
+    <!-- Jambes du père -->
+    <ellipse cx="558" cy="420" rx="10" ry="60" fill="#4A3A2A"/>
+    <ellipse cx="580" cy="425" rx="10" ry="60" fill="#4A3A2A"/>
+
+    <!-- Corps du père -->
+    <ellipse cx="570" cy="340" rx="35" ry="85" fill="#6B5A4A"/>
+
+    <!-- Bras gauche du père (tenant l'enfant) -->
+    <ellipse cx="520" cy="290" rx="12" ry="70" fill="#5A4A3A" transform="rotate(-30 520 290)"/>
+
+    <!-- Bras droit du père (soutenant l'enfant) -->
+    <ellipse cx="620" cy="280" rx="12" ry="75" fill="#5A4A3A" transform="rotate(25 620 280)"/>
+
+    <!-- Cou et tête du père -->
+    <ellipse cx="570" cy="260" rx="18" ry="22" fill="#7A6A5A"/>
+    <circle cx="570" cy="230" r="22" fill="#8B7A6A"/>
+  </g>
+
+  <!-- Enfant (silhouette être levée) -->
+  <g opacity="0.85">
+    <!-- Pieds de l'enfant -->
+    <ellipse cx="545" cy="200" rx="8" ry="6" fill="#5A4A3A"/>
+    <ellipse cx="565" cy="198" rx="8" ry="6" fill="#5A4A3A"/>
+
+    <!-- Jambes de l'enfant -->
+    <ellipse cx="548" cy="235" rx="7" ry="40" fill="#4A3A2A"/>
+    <ellipse cx="562" cy="235" rx="7" ry="40" fill="#4A3A2A"/>
+
+    <!-- Corps de l'enfant -->
+    <ellipse cx="555" cy="270" rx="20" ry="40" fill="#6B5A4A"/>
+
+    <!-- Bras gauche de l'enfant (levé) -->
+    <ellipse cx="520" cy="240" rx="8" ry="50" fill="#5A4A3A" transform="rotate(-60 520 240)"/>
+
+    <!-- Bras droit de l'enfant (levé) -->
+    <ellipse cx="590" cy="245" rx="8" ry="50" fill="#5A4A3A" transform="rotate(60 590 245)"/>
+
+    <!-- Tête de l'enfant -->
+    <circle cx="555" cy="190" r="16" fill="#8B7A6A"/>
+  </g>
+
+  <!-- Lumière du soleil qui se reflète -->
+  <path d="M 600 200 L 600 450" stroke="#FFFFFF" stroke-width="40" opacity="0.15"/>
+</svg>

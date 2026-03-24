@@ -1,0 +1,55 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <style>
+      .ameli-logo-title { font-family: Arial, sans-serif; font-weight: bold; }
+      .ameli-main-text { font-size: 32px; font-weight: 900; }
+      .ameli-tagline { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <!-- Cercle bleu contenant les silhouettes -->
+  <circle cx="70" cy="80" r="55" fill="#1746A2" opacity="0.1"/>
+  
+  <!-- Silhouettes enfants et familles -->
+  <g id="family-group" fill="#1746A2">
+    <!-- Enfant gauche (courant) -->
+    <circle cx="45" cy="60" r="8"/>
+    <ellipse cx="45" cy="75" rx="5" ry="12"/>
+    <ellipse cx="38" cy="85" rx="3" ry="7"/>
+    <ellipse cx="52" cy="85" rx="3" ry="7"/>
+    <ellipse cx="40" cy="68" rx="3" ry="9"/>
+    <ellipse cx="50" cy="65" rx="3" ry="10"/>
+
+    <!-- Enfant milieu (saute) -->
+    <circle cx="70" cy="52" r="9"/>
+    <ellipse cx="70" cy="70" rx="6" ry="13"/>
+    <ellipse cx="62" cy="83" rx="3" ry="7"/>
+    <ellipse cx="78" cy="83" rx="3" ry="7"/>
+    <ellipse cx="60" cy="60" rx="4" ry="12"/>
+    <ellipse cx="80" cy="60" rx="4" ry="12"/>
+
+    <!-- Enfant droite (debout) -->
+    <circle cx="95" cy="62" r="8"/>
+    <ellipse cx="95" cy="77" rx="5" ry="12"/>
+    <ellipse cx="88" cy="87" rx="3" ry="7"/>
+    <ellipse cx="102" cy="87" rx="3" ry="7"/>
+    <ellipse cx="87" cy="68" rx="3" ry="10"/>
+    <ellipse cx="103" cy="70" rx="3" ry="9"/>
+  </g>
+
+  <!-- Texte principal -->
+  <g fill="#1746A2">
+    <!-- l'Assurance -->
+    <text x="150" y="100" class="ameli-logo-title ameli-main-text">l'Assurance</text>
+    
+    <!-- Maladie -->
+    <text x="150" y="145" class="ameli-logo-title ameli-main-text">Maladie</text>
+    
+    <!-- Tagline -->
+    <text x="150" y="170" class="ameli-logo-title ameli-tagline" fill="#1746A2">Agir ensemble, protéger chacun</text>
+  </g>
+
+  <!-- Ligne de séparation bleu foncé en haut et bas pour l'effet de bordure -->
+  <rect x="0" y="0" width="400" height="3" fill="#0F3280"/>
+  <rect x="0" y="197" width="400" height="3" fill="#0F3280"/>
+</svg>

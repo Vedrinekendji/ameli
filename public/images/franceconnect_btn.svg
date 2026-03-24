@@ -1,0 +1,50 @@
+<svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5F5;stop-opacity:1" />
+    </linearGradient>
+    <style>
+      .fc-text { font-family: 'Segoe UI', Arial, sans-serif; font-weight: bold; }
+      .fc-main { font-size: 26px; font-weight: 900; }
+    </style>
+  </defs>
+
+  <!-- Fond bleu principal -->
+  <rect width="500" height="100" fill="#1E4B8B" rx="8"/>
+
+  <!-- Hexagone blanc avec gradient -->
+  <g id="hexagon-container" transform="translate(30, 15)">
+    <!-- Hexagone blanc -->
+    <polygon points="35,0 55,0 70,30 55,60 35,60 20,30" fill="url(#hexGradient)" stroke="#E0E0E0" stroke-width="0.5"/>
+    
+    <!-- Silhouette de profil (tête) -->
+    <circle cx="38" cy="22" r="13" fill="#1E4B8B"/>
+    
+    <!-- Menton/mâchoire -->
+    <ellipse cx="38" cy="32" rx="8" ry="5" fill="#1E4B8B"/>
+    
+    <!-- Drapeau tricolore (petit, en haut à droite du profil) -->
+    <g transform="translate(50, 12)">
+      <!-- Mât du drapeau -->
+      <rect x="0" y="0" width="1.5" height="14" fill="#1E4B8B"/>
+      
+      <!-- Bleu -->
+      <rect x="1.5" y="0" width="4.5" height="7" fill="#1E4B8B"/>
+      <!-- Blanc -->
+      <rect x="6" y="0" width="4.5" height="7" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="0.3"/>
+      <!-- Rouge -->
+      <rect x="10.5" y="0" width="4.5" height="7" fill="#E63946"/>
+    </g>
+  </g>
+
+  <!-- Texte principal -->
+  <text x="135" y="38" class="fc-text fc-main" fill="#FFFFFF">
+    S'identifier avec
+  </text>
+  
+  <!-- Texte FranceConnect avec accent en bleu clair -->
+  <text x="135" y="70" class="fc-text fc-main" fill="#FFFFFF">
+    <tspan fill="#FFFFFF">France</tspan><tspan fill="#5CB3E6">Connect</tspan>
+  </text>
+</svg>
